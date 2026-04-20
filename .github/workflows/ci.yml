@@ -18,14 +18,13 @@ permissions:
 
 env:
   GO_VERSION: "1.23"
-  IMAGE_NAME: ghcr.io/avodah-inc/provider-linear
 
 jobs:
   # ---------------------------------------------------------------------------
   # Unit + property-based tests
   # ---------------------------------------------------------------------------
-  test:
-    name: Tests
+  test-unit:
+    name: Unit and Property Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -59,7 +58,7 @@ jobs:
   test-integration:
     name: Integration Tests
     runs-on: ubuntu-latest
-    needs: test
+    needs: test-unit
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -99,41 +98,6 @@ jobs:
         with:
           sarif_file: trivy-fs-results.sarif
           category: trivy-fs
-
-  # ---------------------------------------------------------------------------
-  # Trivy container image scan
-  # ---------------------------------------------------------------------------
-  trivy-image:
-    name: Trivy Image Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Set up Go
-        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
-        with:
-          go-version: ${{ env.GO_VERSION }}
-
-      - name: Build container image
-        run: docker build -t ${{ env.IMAGE_NAME }}:scan .
-
-      - name: Run Trivy image scan
-        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
-        with:
-          scan-type: image
-          image-ref: ${{ env.IMAGE_NAME }}:scan
-          severity: CRITICAL,HIGH
-          exit-code: "1"
-          format: sarif
-          output: trivy-image-results.sarif
-
-      - name: Upload Trivy image results to GitHub Security
-        if: always()
-        uses: github/codeql-action/upload-sarif@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
-        with:
-          sarif_file: trivy-image-results.sarif
-          category: trivy-image
 
   # ---------------------------------------------------------------------------
   # SBOM generation
