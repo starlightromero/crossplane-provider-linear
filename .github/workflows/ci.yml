@@ -18,7 +18,7 @@ permissions:
 
 env:
   GO_VERSION: "1.26"
-  IMAGE_NAME: ghcr.io/avodah-inc/provider-linear
+  IMAGE_NAME: ghcr.io/starlightromero/provider-linear
 
 jobs:
   # ---------------------------------------------------------------------------
