@@ -1,0 +1,23 @@
+---
+# Example WorkspaceSettings managed resource (singleton)
+apiVersion: linear.crossplane.io/v1alpha1
+kind: WorkspaceSettings
+metadata:
+  name: workspace-settings
+spec:
+  forProvider:
+    allowMembersToInvite: true
+    fiscalYearStartMonth: 0
+    projects:
+      updateReminderDay: 1
+      updateReminderHour: 9
+      updateReminderFrequency: "weekly"
+    initiatives:
+      enabled: true
+    feed:
+      enabled: true
+      schedule: "daily"
+    customers:
+      enabled: false
+  providerConfigRef:
+    name: default

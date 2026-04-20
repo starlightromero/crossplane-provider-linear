@@ -1,0 +1,4 @@
+# Trivy ignore file
+# Add CVE IDs or package names to suppress known false positives
+# Format: CVE-YYYY-NNNNN or package:name
+# See: https://aquasecurity.github.io/trivy/latest/docs/configuration/filtering/#by-finding-ids

@@ -1,0 +1,263 @@
+# Implementation Plan: Crossplane Provider Linear
+
+## Overview
+
+Build a Crossplane provider for Linear using Upjet code generation from `terraform-community-providers/linear`. The implementation proceeds in phases: project scaffolding and Upjet configuration, per-resource configuration with validation, authentication module, cross-resource references, packaging, and security compliance. All code is Go. Property-based tests use the `rapid` library.
+
+## Tasks
+
+- [x] 1. Scaffold Upjet provider project
+  - [x] 1.1 Initialize the Upjet provider repository structure
+    - Run `upjet` scaffolding to create the base provider-linear project
+    - Configure `go.mod` with module path and Go version
+    - Set up `Makefile` with `generate`, `build`, `test`, `lint` targets
+    - Configure the Terraform provider source as `terraform-community-providers/linear`
+    - _Requirements: 11.1, 11.2, 11.4_
+  - [x] 1.2 Configure the provider main binary entry point
+    - Create `cmd/provider/main.go` that registers all Upjet-generated controllers
+    - Configure the Terraform provider bridge with no-fork runtime mode
+    - Wire the controller manager startup with Crossplane runtime
+    - _Requirements: 2.1, 2.4, 11.1_
+  - [x] 1.3 Create the base Upjet provider configuration package
+    - Create `config/provider.go` with the provider configuration function
+    - Register the upstream Terraform provider schema
+    - Set the CRD group to `linear.crossplane.io` and API version to `v1alpha1`
+    - _Requirements: 2.2, 11.1, 11.2_
+
+- [x] 2. Implement field validation functions
+  - [x] 2.1 Implement UUID, Hex Color, Team key, name length, enum, JSON, and fiscal month validators
+    - Create `internal/validation/validators.go` with reusable validation functions
+    - UUID validator: accept iff matching `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`
+    - Hex color validator: accept iff matching `^#[0-9a-fA-F]{6}$`
+    - Team key validator: accept iff matching `^[A-Z0-9]{1,5}$`
+    - Name length validator: min 2 for Team, min 1 for all others
+    - Enum validators for `autoArchivePeriod`, `autoClosePeriod`, WorkflowState `type`, Template `type`
+    - JSON validator for Template `data` field
+    - Fiscal month validator: accept iff integer in [0, 11]
+    - All validators return errors containing the field name and violated constraint description
+    - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.7, 3.4, 3.5, 3.6, 3.7, 3.8, 4.4, 4.6, 5.5, 6.4, 6.5, 6.6, 7.4, 7.5, 7.8, 8.4, 8.5, 9.5_
+  - [x] 2.2 Write property test: UUID field validation
+    - **Property 1: UUID field validation**
+    - Generate random strings via `rapid`, verify UUID validation accepts iff matching UUID pattern
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 1: UUID field validation`
+    - **Validates: Requirements 5.5, 13.1**
+  - [x] 2.3 Write property test: Hex color field validation
+    - **Property 2: Hex color field validation**
+    - Generate random strings via `rapid`, verify color validation accepts iff matching `^#[0-9a-fA-F]{6}$`
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 2: Hex color field validation`
+    - **Validates: Requirements 3.6, 4.6, 7.8, 8.5, 13.2**
+  - [x] 2.4 Write property test: Team key validation
+    - **Property 3: Team key validation**
+    - Generate random strings via `rapid`, verify Team key validation accepts iff matching `^[A-Z0-9]{1,5}$`
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 3: Team key validation`
+    - **Validates: Requirements 3.4, 13.4**
+  - [x] 2.5 Write property test: Name minimum length validation
+    - **Property 4: Name minimum length validation**
+    - Generate random strings per resource type via `rapid`, verify name validation enforces correct min-length (2 for Team, 1 for others)
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 4: Name minimum length validation`
+    - **Validates: Requirements 3.5, 4.4, 6.4, 7.4, 8.4, 13.3**
+  - [x] 2.6 Write property test: Template data JSON validation
+    - **Property 6: Template data JSON validation**
+    - Generate random strings (mix of valid JSON and arbitrary) via `rapid`, verify JSON validation correctness
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 6: Template data JSON validation`
+    - **Validates: Requirements 6.5**
+  - [x] 2.7 Write property test: Fiscal year start month range validation
+    - **Property 7: Fiscal year start month range validation**
+    - Generate random integers via `rapid`, verify fiscal month validation accepts iff in [0, 11]
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 7: Fiscal year start month range validation`
+    - **Validates: Requirements 9.5**
+  - [x] 2.8 Write property test: Validation errors identify field and constraint
+    - **Property 9: Validation errors identify field and constraint**
+    - Generate random invalid field values per resource via `rapid`, verify error messages contain field name and constraint description
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 9: Validation errors identify field and constraint`
+    - **Validates: Requirements 13.7**
+
+- [x] 3. Checkpoint — Validate scaffolding and validators
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 4. Configure Upjet resource mappings for all managed resources
+  - [x] 4.1 Configure Team resource mapping
+    - Create `config/team/config.go` with Upjet resource configuration for `linear_team`
+    - Set external name annotation to use `key` field
+    - Wire field validations: `key` (team key pattern), `name` (min 2), `color` (hex color), `autoArchivePeriod` (enum), `autoClosePeriod` (enum)
+    - Configure inline workflow state sub-objects (backlog, unstarted, started, completed, canceled)
+    - Configure triage, cycles, and estimation sub-objects
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14, 11.2, 11.5_
+  - [x] 4.2 Configure TeamLabel resource mapping
+    - Create `config/teamlabel/config.go` with Upjet resource configuration for `linear_team_label`
+    - Set external name annotation to `label_name:team_key` composite pattern
+    - Wire field validations: `name` (min 1), `color` (hex color), `teamId` (UUID)
+    - Mark `teamId` as immutable
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 11.2, 11.5_
+  - [x] 4.3 Configure TeamWorkflow resource mapping
+    - Create `config/teamworkflow/config.go` with Upjet resource configuration for `linear_team_workflow`
+    - Set external name annotation to `team_key` or `team_key:branch_pattern:is_regex`
+    - Wire field validations: workflow state UUID fields (`draft`, `start`, `review`, `mergeable`, `merge`)
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 11.2, 11.5_
+  - [x] 4.4 Configure Template resource mapping
+    - Create `config/template/config.go` with Upjet resource configuration for `linear_template`
+    - Set external name annotation to `id`
+    - Wire field validations: `name` (min 1), `data` (JSON), `type` (enum with default `issue`)
+    - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 11.2, 11.5_
+  - [x] 4.5 Configure WorkflowState resource mapping
+    - Create `config/workflowstate/config.go` with Upjet resource configuration for `linear_workflow_state`
+    - Set external name annotation to `workflow_state_name:team_key`
+    - Wire field validations: `name` (min 1), `type` (enum), `color` (hex color), `teamId` (UUID)
+    - Mark `type` and `teamId` as immutable
+    - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 11.2, 11.5_
+  - [x] 4.6 Configure WorkspaceLabel resource mapping
+    - Create `config/workspacelabel/config.go` with Upjet resource configuration for `linear_workspace_label`
+    - Set external name annotation to `label_name`
+    - Wire field validations: `name` (min 1), `color` (hex color)
+    - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 11.2, 11.5_
+  - [x] 4.7 Configure WorkspaceSettings resource mapping
+    - Create `config/workspacesettings/config.go` with Upjet resource configuration for `linear_workspace_settings`
+    - Set external name annotation to `id`
+    - Wire field validations: `fiscalYearStartMonth` (range 0-11)
+    - Implement singleton enforcement logic
+    - Configure sub-objects: projects, initiatives, feed, customers
+    - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10, 11.2, 11.5_
+  - [x] 4.8 Configure Workspace data source mapping
+    - Create `config/workspace/config.go` with Upjet data source configuration for `linear_workspace`
+    - Set external name annotation to `id`
+    - Configure as read-only (no writable spec fields)
+    - Ensure status populates `id`, `name`, `urlKey`
+    - _Requirements: 10.1, 10.2, 10.3, 10.4, 11.3_
+  - [x] 4.9 Write property test: External name annotation round-trip
+    - **Property 8: External name annotation round-trip**
+    - Generate random valid resource identity fields via `rapid`, verify external name compose/parse round-trip for each resource type
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 8: External name annotation round-trip`
+    - **Validates: Requirements 11.5**
+
+- [x] 5. Checkpoint — Validate resource configurations
+  - Run `make generate` to produce CRDs and controllers from Upjet configuration
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 6. Implement authentication module
+  - [x] 6.1 Implement ProviderConfig credential resolution and API token auth
+    - Create `internal/auth/auth.go` with credential resolution logic
+    - Implement `Secret` source: read API token from K8s Secret key, set as Bearer token
+    - Set ProviderConfig `Ready=False` with descriptive reason on missing secret or invalid token (401)
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.17_
+  - [x] 6.2 Implement OAuth2 client credentials authentication
+    - Implement `OAuth2ClientCredentials` source: exchange `client_id` + `client_secret` for Access_Token via `POST /oauth/token`
+    - Include configurable `scope` parameter (default `read,write`)
+    - Cache Access_Token in memory; re-request on 401 or expiry
+    - Set ProviderConfig `Ready=False` on exchange failure
+    - _Requirements: 1.5, 1.6, 1.7, 1.8, 1.9_
+  - [x] 6.3 Implement OAuth2 authorization code authentication with token refresh
+    - Implement `OAuth2` source: read `access_token`, `refresh_token`, `client_id`, `client_secret` from K8s Secret
+    - Implement automatic token refresh on expiry (24-hour lifetime) via `POST /oauth/token` with `grant_type=refresh_token`
+    - Write new token pair back to K8s Secret after successful refresh
+    - Set ProviderConfig `Ready=False` on refresh failure
+    - _Requirements: 1.10, 1.11, 1.12, 1.13, 1.14_
+  - [x] 6.4 Implement auth source validation and single-method enforcement
+    - Reject unsupported `spec.credentials.source` values with validation error
+    - Ensure exactly one auth method per ProviderConfig
+    - _Requirements: 1.15, 1.16, 1.17, 1.18_
+  - [x] 6.5 Write unit tests for authentication module
+    - Test credential reading from secrets for all three auth methods
+    - Test token caching and re-request on 401 for client credentials
+    - Test token refresh and K8s Secret update for authorization code flow
+    - Test error conditions: missing secret, invalid token, refresh failure, unsupported source
+    - _Requirements: 1.1–1.18_
+
+- [x] 7. Implement immutability enforcement
+  - [x] 7.1 Add immutable field guards for TeamLabel.teamId, WorkflowState.type, WorkflowState.teamId
+    - Implement update-time validation that compares new spec against observed state for immutable fields
+    - Reject updates that change immutable field values with descriptive admission error
+    - _Requirements: 4.5, 7.6, 7.7, 13.6_
+  - [x] 7.2 Write property test: Immutable field enforcement
+    - **Property 5: Immutable field enforcement**
+    - Generate random resource specs via `rapid`, simulate create then immutable field update, verify rejection
+    - Minimum 100 iterations, tagged `Feature: crossplane-provider-linear, Property 5: Immutable field enforcement`
+    - **Validates: Requirements 4.5, 7.6, 7.7, 13.6**
+
+- [x] 8. Checkpoint — Validate auth and immutability
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 9. Configure cross-resource references
+  - [x] 9.1 Configure TeamLabel → Team reference
+    - Add `teamIdRef` / `teamIdSelector` reference configuration in TeamLabel Upjet config
+    - Resolve reference to Team external ID (UUID)
+    - _Requirements: 14.1, 14.2_
+  - [x] 9.2 Configure WorkflowState → Team reference
+    - Add `teamIdRef` / `teamIdSelector` reference configuration in WorkflowState Upjet config
+    - _Requirements: 14.1, 14.3_
+  - [x] 9.3 Configure TeamWorkflow → WorkflowState references
+    - Add `ref` / `selector` reference configuration for `draft`, `start`, `review`, `mergeable`, `merge` fields
+    - _Requirements: 14.1, 14.4_
+  - [x] 9.4 Configure Template → Team reference
+    - Add `teamIdRef` / `teamIdSelector` reference configuration in Template Upjet config
+    - _Requirements: 14.1_
+  - [x] 9.5 Configure unresolved reference behavior
+    - Ensure Crossplane sets `Synced=False` when a referenced resource does not exist or is not ready
+    - _Requirements: 14.5_
+
+- [x] 10. Implement reconciliation behavior
+  - [x] 10.1 Configure status conditions and `status.atProvider` population
+    - Ensure `Ready=True` and `Synced=True` conditions are set after successful create/update
+    - Populate `status.atProvider` with latest observed state from Linear API
+    - _Requirements: 12.1, 12.2, 12.7_
+  - [x] 10.2 Configure error handling: backoff, rate limiting, deletion policy, management policies
+    - Configure exponential backoff on Linear API unreachability
+    - Implement rate limit respect for 429 responses with `Retry-After` header
+    - Configure `Orphan` deletion policy support
+    - Configure `managementPolicies` field support
+    - _Requirements: 12.3, 12.4, 12.5, 12.6_
+
+- [x] 11. Checkpoint — Validate references and reconciliation
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 12. Packaging, deployment, and example manifests
+  - [x] 12.1 Configure distroless OCI image build
+    - Create `Dockerfile` with multi-stage build: Go build stage → distroless runtime
+    - Ensure binary runs as non-root user
+    - Configure Prometheus metrics endpoint for reconciliation metrics
+    - _Requirements: 2.1, 2.3, 2.5, 16.3, 16.4_
+  - [x] 12.2 Create Crossplane provider package metadata
+    - Create `package/crossplane.yaml` with provider package metadata
+    - Ensure package installation registers all 8 CRDs under `linear.crossplane.io`
+    - _Requirements: 2.1, 2.2_
+  - [x] 12.3 Create example manifests for all resources
+    - Create `examples/` directory with example YAML manifests for Team, TeamLabel, TeamWorkflow, Template, WorkflowState, WorkspaceLabel, WorkspaceSettings, and Workspace
+    - Create example ProviderConfig manifest for each auth method
+    - _Requirements: 15.1, 15.2, 15.4_
+  - [x] 12.4 Write integration tests for CRUD lifecycle
+    - Test create → read → update → delete for each of the 7 managed resources
+    - Test Workspace data source fetch and refresh
+    - Test cross-resource reference resolution (TeamLabel → Team, WorkflowState → Team, TeamWorkflow → WorkflowState)
+    - Test all three authentication flows end-to-end
+    - Test OAuth2 token refresh and K8s Secret update
+    - Test rate limiting (429 response handling)
+    - Test `Orphan` deletion policy and management policies
+    - _Requirements: 3.1–3.14, 4.1–4.8, 5.1–5.6, 6.1–6.9, 7.1–7.9, 8.1–8.6, 9.1–9.10, 10.1–10.4, 12.1–12.7, 14.1–14.5_
+
+- [x] 13. Security and compliance validation
+  - [x] 13.1 Configure and run Trivy filesystem scan
+    - Run `trivy fs . --include-dev-deps` and ensure zero critical/high findings
+    - Fix any findings before proceeding
+    - _Requirements: 16.1_
+  - [x] 13.2 Configure and run SonarQube scan
+    - Run `sonar-scanner` and ensure zero critical/high findings
+    - Fix any findings before proceeding
+    - _Requirements: 16.2_
+  - [x] 13.3 Validate all manifests with kubeconform
+    - Run `kubeconform` in strict mode with CRD schema locations against all example manifests and package manifests
+    - Ensure no secrets are embedded in container image layers or CRD definitions
+    - _Requirements: 16.5, 16.6_
+
+- [x] 14. Final checkpoint — Full validation
+  - Run `make generate` to confirm regeneration works
+  - Run full test suite (unit + property-based tests)
+  - Ensure all tests pass, ask the user if questions arise.
+
+## Notes
+
+- Tasks marked with `*` are optional and can be skipped for faster MVP
+- Each task references specific requirements for traceability
+- Checkpoints ensure incremental validation
+- Property tests validate universal correctness properties from the design document using Go's `rapid` library
+- Unit tests validate specific examples and edge cases
+- The implementation language is Go throughout, matching the Upjet/Crossplane ecosystem
+- All 9 correctness properties from the design are covered as property-based test sub-tasks

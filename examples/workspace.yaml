@@ -1,0 +1,10 @@
+---
+# Example Workspace data source (read-only)
+apiVersion: linear.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: my-workspace
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: default

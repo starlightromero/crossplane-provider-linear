@@ -1,0 +1,22 @@
+{
+  "format_version": "1.0",
+  "provider_schemas": {
+    "registry.terraform.io/terraform-community-providers/linear": {
+      "provider": {
+        "version": 0,
+        "block": {
+          "attributes": {
+            "api_key": {
+              "type": "string",
+              "description": "Linear API key for authentication.",
+              "optional": true,
+              "sensitive": true
+            }
+          }
+        }
+      },
+      "resource_schemas": {},
+      "data_source_schemas": {}
+    }
+  }
+}

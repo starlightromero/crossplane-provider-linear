@@ -1,0 +1,16 @@
+---
+# Example WorkflowState managed resource
+apiVersion: linear.crossplane.io/v1alpha1
+kind: WorkflowState
+metadata:
+  name: eng-in-review
+spec:
+  forProvider:
+    name: "In Review"
+    type: "started"
+    position: 2.5
+    color: "#f2994a"
+    teamIdRef:
+      name: engineering
+  providerConfigRef:
+    name: default

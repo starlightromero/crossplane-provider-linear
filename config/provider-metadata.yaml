@@ -1,0 +1,5 @@
+# Provider metadata for Upjet code generation.
+# This file is populated by `make generate` from the upstream Terraform
+# provider schema. The placeholder below is sufficient for initial
+# scaffolding and compilation.
+resources: {}

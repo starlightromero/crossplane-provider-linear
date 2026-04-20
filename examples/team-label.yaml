@@ -1,0 +1,14 @@
+---
+# Example TeamLabel managed resource
+apiVersion: linear.crossplane.io/v1alpha1
+kind: TeamLabel
+metadata:
+  name: eng-bug
+spec:
+  forProvider:
+    name: "Bug"
+    color: "#eb5757"
+    teamIdRef:
+      name: engineering
+  providerConfigRef:
+    name: default

@@ -1,0 +1,17 @@
+apiVersion: meta.pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-linear
+  annotations:
+    meta.crossplane.io/maintainer: Avodah Inc <engineering@avodah.io>
+    meta.crossplane.io/source: https://github.com/avodah-inc/provider-linear
+    meta.crossplane.io/description: |
+      Crossplane provider for Linear, generated via Upjet from
+      terraform-community-providers/linear. Manages Team, TeamLabel,
+      TeamWorkflow, Template, WorkflowState, WorkspaceLabel,
+      WorkspaceSettings, and Workspace resources under linear.crossplane.io.
+spec:
+  controller:
+    image: ghcr.io/avodah-inc/provider-linear:latest
+  crossplane:
+    version: ">=v1.14.0"

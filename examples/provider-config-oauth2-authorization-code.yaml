@@ -1,0 +1,26 @@
+---
+# ProviderConfig using OAuth2 Authorization Code flow with automatic token refresh
+apiVersion: linear.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: oauth2-authorization-code
+spec:
+  credentials:
+    source: OAuth2
+    secretRef:
+      namespace: crossplane-system
+      name: linear-oauth2-tokens
+      key: access_token
+---
+# The Secret containing OAuth2 tokens and client credentials for refresh
+apiVersion: v1
+kind: Secret
+metadata:
+  name: linear-oauth2-tokens
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  access_token: your-access-token
+  refresh_token: your-refresh-token
+  client_id: your-client-id
+  client_secret: your-client-secret

@@ -1,0 +1,28 @@
+---
+# Example Template managed resource (team-scoped)
+apiVersion: linear.crossplane.io/v1alpha1
+kind: Template
+metadata:
+  name: bug-report
+spec:
+  forProvider:
+    name: "Bug Report"
+    data: '{"title":"Bug: ","priority":2,"labels":["Bug"]}'
+    type: "issue"
+    teamIdRef:
+      name: engineering
+  providerConfigRef:
+    name: default
+---
+# Example Template managed resource (workspace-level)
+apiVersion: linear.crossplane.io/v1alpha1
+kind: Template
+metadata:
+  name: project-kickoff
+spec:
+  forProvider:
+    name: "Project Kickoff"
+    data: '{"title":"Project: ","description":"## Goals\n\n## Timeline\n\n## Resources"}'
+    type: "project"
+  providerConfigRef:
+    name: default

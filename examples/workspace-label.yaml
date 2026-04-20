@@ -1,0 +1,12 @@
+---
+# Example WorkspaceLabel managed resource
+apiVersion: linear.crossplane.io/v1alpha1
+kind: WorkspaceLabel
+metadata:
+  name: priority
+spec:
+  forProvider:
+    name: "Priority"
+    color: "#f2c94c"
+  providerConfigRef:
+    name: default

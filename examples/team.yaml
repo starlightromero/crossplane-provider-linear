@@ -1,0 +1,50 @@
+---
+# Example Team managed resource
+apiVersion: linear.crossplane.io/v1alpha1
+kind: Team
+metadata:
+  name: engineering
+spec:
+  forProvider:
+    key: "ENG"
+    name: "Engineering"
+    private: false
+    description: "Core engineering team"
+    color: "#6B5CE7"
+    timezone: "America/New_York"
+    autoArchivePeriod: 6
+    autoClosePeriod: 6
+    triage:
+      enabled: true
+      requirePriority: false
+    cycles:
+      enabled: true
+      startDay: 1
+      duration: 2
+      cooldown: 0
+      upcoming: 2
+      autoAddStarted: true
+      autoAddCompleted: true
+      needForActive: false
+    estimation:
+      type: "linear"
+      extended: false
+      allowZero: false
+      default: 1
+    backlogWorkflowState:
+      name: "Backlog"
+      color: "#bec2c8"
+    unstartedWorkflowState:
+      name: "Todo"
+      color: "#e2e2e2"
+    startedWorkflowState:
+      name: "In Progress"
+      color: "#f2c94c"
+    completedWorkflowState:
+      name: "Done"
+      color: "#5e6ad2"
+    canceledWorkflowState:
+      name: "Canceled"
+      color: "#95a2b3"
+  providerConfigRef:
+    name: default
