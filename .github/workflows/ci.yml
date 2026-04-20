@@ -17,7 +17,7 @@ permissions:
   security-events: write
 
 env:
-  GO_VERSION: "1.23"
+  GO_VERSION: "1.26"
   IMAGE_NAME: ghcr.io/avodah-inc/provider-linear
 
 jobs:

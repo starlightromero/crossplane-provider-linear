@@ -1,6 +1,6 @@
 module github.com/avodah-inc/provider-linear
 
-go 1.24.7
+go 1.26.0
 
 toolchain go1.26.2
 
