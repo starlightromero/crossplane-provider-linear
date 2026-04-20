@@ -30,9 +30,6 @@ func Configure(p *ujconfig.Provider) {
 				}
 				return "", fmt.Errorf("cannot determine external name: name field is empty")
 			},
-			GetIDFn: func(_ string, _ string, externalName string) (string, error) {
-				return externalName, nil
-			},
 			OmittedFields: []string{"name"},
 		}
 	})

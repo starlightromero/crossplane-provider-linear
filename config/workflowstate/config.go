@@ -43,9 +43,6 @@ func Configure(p *ujconfig.Provider) {
 				}
 				return name + ":" + teamKey, nil
 			},
-			GetIDFn: func(_ string, _ string, externalName string) (string, error) {
-				return externalName, nil
-			},
 			OmittedFields: []string{"name", "team_key"},
 		}
 

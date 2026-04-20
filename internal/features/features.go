@@ -1,7 +1,7 @@
 // Package features defines feature flags for provider-linear.
 package features
 
-import "github.com/crossplane/crossplane-runtime/pkg/feature"
+import "github.com/crossplane/crossplane-runtime/v2/pkg/feature"
 
 const (
 	// EnableAlphaExternalSecretStores enables alpha support for

@@ -1,5 +1,6 @@
 # Binaries
 bin/
+provider
 *.exe
 *.dll
 *.so

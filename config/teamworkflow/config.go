@@ -49,9 +49,6 @@ func Configure(p *ujconfig.Provider) {
 				}
 				return key, nil
 			},
-			GetIDFn: func(_ string, _ string, externalName string) (string, error) {
-				return externalName, nil
-			},
 			OmittedFields: []string{"key"},
 		}
 
