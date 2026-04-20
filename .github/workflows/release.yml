@@ -126,6 +126,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Pull runtime image
+        run: docker pull ${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.version }}
+
       - name: Build Crossplane package
         run: |
           cd package
