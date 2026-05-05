@@ -12,6 +12,6 @@ metadata:
       WorkspaceSettings, and Workspace resources under linear.crossplane.io.
 spec:
   controller:
-    image: ghcr.io/avodah-inc/provider-linear:latest
+    image: ghcr.io/starlightromero/provider-linear:VERSION_PLACEHOLDER
   crossplane:
     version: ">=v1.14.0"
