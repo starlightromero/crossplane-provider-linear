@@ -3,7 +3,7 @@
 # version from conventional commits, then builds and publishes the OCI image
 # and Crossplane package to GHCR.
 # All actions are SHA-pinned.
-# CLI-3452
+# CLI-3585
 name: Release
 
 on:
@@ -53,7 +53,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ---------------------------------------------------------------------------
-  # Build and push multi-arch image to GHCR
+  # Build and push multi-arch controller image to GHCR
   # ---------------------------------------------------------------------------
   build-push:
     name: Build and Push Image
@@ -102,22 +102,44 @@ jobs:
           cache-to: type=gha,mode=max
 
   # ---------------------------------------------------------------------------
-  # Build Crossplane package (metadata + CRDs only, no embedded runtime)
+  # Build Crossplane xpkg per-arch with embedded runtime, then push manifest
   # ---------------------------------------------------------------------------
   package:
-    name: Crossplane Package
+    name: Crossplane Package (${{ matrix.arch }})
     runs-on: ubuntu-latest
     needs: [semantic-release, build-push]
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ needs.semantic-release.outputs.tag }}
 
+      - name: Set up Go
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v6.0.2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Generate CRDs
+        run: |
+          go generate ./...
+
+      - name: Copy CRDs to package directory
+        run: |
+          find . -path ./package -prune -o -name '*.yaml' -path '*/crds/*' -print \
+            -exec cp {} package/ \;
+          echo "Package directory contents:"
+          ls -la package/
+
       - name: Install Crossplane CLI
         run: |
           curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
           sudo mv crossplane /usr/local/bin/
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 
       - name: Log in to GHCR
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
@@ -126,28 +148,64 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Substitute version into crossplane.yaml
+      - name: Pull platform-specific controller image
         run: |
-          sed -i "s/VERSION_PLACEHOLDER/${{ needs.semantic-release.outputs.version }}/" \
-            package/crossplane.yaml
+          docker pull --platform linux/${{ matrix.arch }} \
+            ${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.version }}
 
-      - name: Build Crossplane package
+      - name: Build Crossplane package with embedded runtime
         run: |
           crossplane xpkg build \
             --package-root=package \
-            -o provider-linear.xpkg
+            --embed-runtime-image=${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.version }} \
+            -o provider-linear-${{ matrix.arch }}.xpkg
 
-      - name: Push Crossplane package
+      - name: Push arch-specific xpkg
         run: |
           crossplane xpkg push \
-            -f provider-linear.xpkg \
-            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg
+            -f provider-linear-${{ matrix.arch }}.xpkg \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg-${{ matrix.arch }}
 
       - name: Upload xpkg artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: xpkg
-          path: provider-linear.xpkg
+          name: xpkg-${{ matrix.arch }}
+          path: provider-linear-${{ matrix.arch }}.xpkg
+
+  # ---------------------------------------------------------------------------
+  # Create multi-arch manifest list for the xpkg
+  # ---------------------------------------------------------------------------
+  package-manifest:
+    name: Crossplane Package Manifest
+    runs-on: ubuntu-latest
+    needs: [semantic-release, package]
+    steps:
+      - name: Log in to GHCR
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push manifest list
+        run: |
+          docker manifest create \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg-amd64 \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg-arm64
+
+          docker manifest annotate \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg-amd64 \
+            --os linux --arch amd64
+
+          docker manifest annotate \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg-arm64 \
+            --os linux --arch arm64
+
+          docker manifest push \
+            ${{ env.IMAGE_NAME }}:v${{ needs.semantic-release.outputs.version }}-xpkg
 
   # ---------------------------------------------------------------------------
   # Attach artifacts to GitHub Release and generate SBOM
@@ -155,12 +213,13 @@ jobs:
   release-assets:
     name: Release Assets
     runs-on: ubuntu-latest
-    needs: [semantic-release, package]
+    needs: [semantic-release, package-manifest]
     steps:
       - name: Download xpkg artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: xpkg
+          pattern: xpkg-*
+          merge-multiple: true
 
       - name: Log in to GHCR
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
@@ -183,5 +242,6 @@ jobs:
           tag_name: v${{ needs.semantic-release.outputs.version }}
           draft: false
           files: |
-            provider-linear.xpkg
+            provider-linear-amd64.xpkg
+            provider-linear-arm64.xpkg
             sbom.cdx.json
