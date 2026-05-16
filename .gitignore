@@ -1,6 +1,7 @@
 # Binaries
 bin/
 provider
+/generator
 *.exe
 *.dll
 *.so
@@ -26,6 +27,7 @@ vendor/
 
 # Build
 _output/
+examples-generated/
 
 # SonarQube
 .scannerwork/

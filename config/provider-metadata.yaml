@@ -1,5 +1,213 @@
-# Provider metadata for Upjet code generation.
-# This file is populated by `make generate` from the upstream Terraform
-# provider schema. The placeholder below is sufficient for initial
-# scaffolding and compilation.
-resources: {}
+name: terraform-community-providers/linear
+resources:
+    linear_team:
+        subCategory: ""
+        description: Linear team.
+        name: linear_team
+        title: linear_team Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "key": "SOME",
+                  "name": "something"
+                }
+        argumentDocs:
+            "0": for turning this off.
+            allow_members_to_manage_labels: (Boolean) Allow members to manage labels in the team.
+            allow_members_to_manage_members: (Boolean) Allow members to manage members of the team.
+            allow_members_to_manage_team: (Boolean) Allow members to manage the team.
+            allow_members_to_manage_templates: (Boolean) Allow members to manage templates in the team.
+            allow_zero: (Boolean) Whether zero is allowed as an estimation. Default false.
+            auto_add_completed: (Boolean) Auto add completed issues that don't belong to any cycle to the active cycle. Default true.
+            auto_add_started: (Boolean) Auto add started issues that don't belong to any cycle to the active cycle. Default true.
+            auto_archive_period: (Number) Period after which closed and completed issues are automatically archived, in months. Default 6.
+            auto_close_child_issues: (Boolean) Whether to automatically close child issues when their parent issue is closed. Default false.
+            auto_close_parent_issues: (Boolean) Whether to automatically close parent issues when all their child issues are closed. Default false.
+            auto_close_period: (Number) Period after which non-completed or non-canceled issues are automatically closed, in months. Default 6. Use
+            backlog_workflow_state: (Attributes) Settings for the backlog workflow state that is created by default for the team. Position is always  (see below for nested schema)
+            canceled_workflow_state: (Attributes) Settings for the canceled workflow state that is created by default for the team. Position is always  (see below for nested schema)
+            color: (String) Color of the team.
+            completed_workflow_state: (Attributes) Settings for the completed workflow state that is created by default for the team. Position is always  (see below for nested schema)
+            cooldown: (Number) Cooldown time between cycles in weeks. Default 0.
+            cycles: (Attributes) Cycle settings of the team. (see below for nested schema)
+            default: (Number) Default estimation for issues that are unestimated. Default 1.
+            description: (String) Description of the team.
+            duration: (Number) Duration of the cycle in weeks. Default 1.
+            enable_issue_default_to_bottom: (Boolean) Enable moving issues to bottom of the column when changing state. Default false.
+            enable_issue_history_grouping: (Boolean) Enable issue history grouping for the team. Default true.
+            enable_thread_summaries: (Boolean) Enable resolved thread AI summaries for the team. Default true.
+            enabled: (Boolean) Enable cycles for the team. Default false.
+            estimation: (Attributes) Issue estimation settings of the team. (see below for nested schema)
+            extended: (Boolean) Whether the team uses extended estimation. Default false.
+            icon: (String) Icon of the team.
+            id: (String) Identifier of the team.
+            key: (String) Key of the team.
+            name: (String) Name of the team.
+            need_for_active: (Boolean) Whether all active issues need to have a cycle. Default false.
+            parent_id: (String) Identifier of the parent team.
+            position: (Number) Position of the workflow state.
+            private: (Boolean) Privacy of the team. Default false.
+            require_priority: (Boolean) Whether an issue needs to have a priority set before leaving triage. Default false.
+            start_day: (Number) Start day of the cycle. Sunday is 0, Saturday is 6. Default 0.
+            started_workflow_state: (Attributes) Settings for the started workflow state that is created by default for the team. Position is always  (see below for nested schema)
+            timezone: (String) Timezone of the team. Default Etc/GMT.
+            triage: (Attributes) Triage settings of the team. (see below for nested schema)
+            type: (String) Issue estimation type for the team. Default notUsed.
+            unstarted_workflow_state: (Attributes) Settings for the unstarted workflow state that is created by default for the team. Position is always  (see below for nested schema)
+            upcoming: (Number) Number of upcoming cycles to automatically create. Default 2.
+        importStatements:
+            - terraform import linear_team.example SOME
+    linear_team_label:
+        subCategory: ""
+        description: Linear team label.
+        name: linear_team_label
+        title: linear_team_label Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "Tech Debt",
+                  "team_id": "${linear_team.example.id}"
+                }
+              references:
+                team_id: linear_team.example.id
+        argumentDocs:
+            color: (String) Color of the label.
+            description: (String) Description of the label.
+            id: (String) Identifier of the label.
+            is_group: (Boolean) Whether the label is a group (parent) label.
+            name: (String) Name of the label.
+            parent_id: (String) Parent (label group) of the label.
+            team_id: (String) Identifier of the team.
+        importStatements:
+            - terraform import linear_team_label.example Bug:SOME
+    linear_team_workflow:
+        subCategory: ""
+        description: Linear team workflow.
+        name: linear_team_workflow
+        title: linear_team_workflow Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "draft": "${linear_team.example.started_workflow_state.id}",
+                  "key": "SOME",
+                  "merge": "${linear_team.example.completed_workflow_state.id}"
+                }
+              references:
+                draft: linear_team.example.started_workflow_state.id
+                merge: linear_team.example.completed_workflow_state.id
+        argumentDocs:
+            branch: (Attributes) Branch settings for this workflow state. (see below for nested schema)
+            draft: (String) Workflow state used when draft PRs are opened.
+            id: (String) Identifier of the team.
+            is_regex: (Boolean) Whether the branch pattern is a regex. Default false.
+            key: (String) Key of the team.
+            merge: (String) Workflow state used when PRs are merged.
+            mergeable: (String) Workflow state used when PRs become mergeable.
+            pattern: (String) Branch pattern to match.
+            review: (String) Workflow state used when reviews are requested on PRs.
+            start: (String) Workflow state used when PRs are opened.
+        importStatements:
+            - terraform import linear_team_workflow.example SOME
+    linear_template:
+        subCategory: ""
+        description: Linear template resource.
+        name: linear_template
+        title: linear_template Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "data": "${jsonencode({\n    \"title\" = \"Product Bug\"\n  })}",
+                  "name": "Team Example template"
+                }
+        argumentDocs:
+            color: (String) Color of the template.
+            data: (String) Template data of the template.
+            description: (String) Description of the template.
+            icon: (String) Icon of the template.
+            id: (String) Identifier of the template.
+            name: (String) Name of the template.
+            team_id: (String) Identifier of the team. If not provided, creates a workspace-level template.
+            type: (String) Type of the template. Default issue.
+        importStatements:
+            - terraform import linear_template.example ecb63be7-63fb-47fe-95fc-1585d24e172d
+    linear_workflow_state:
+        subCategory: ""
+        description: Linear team workflow state.
+        name: linear_workflow_state
+        title: linear_workflow_state Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "color": "#ffff00",
+                  "name": "Deployed",
+                  "team_id": "${linear_team.example.id}",
+                  "type": "completed"
+                }
+              references:
+                team_id: linear_team.example.id
+        argumentDocs:
+            color: (String) Color of the workflow state.
+            description: (String) Description of the workflow state.
+            id: (String) Identifier of the workflow state.
+            name: (String) Name of the workflow state.
+            position: (Number) Position of the workflow state.
+            team_id: (String) Identifier of the team.
+            type: (String) Type of the workflow state.
+        importStatements:
+            - terraform import linear_worflow_state.example Done:SOME
+    linear_workspace_label:
+        subCategory: ""
+        description: Linear workspace label.
+        name: linear_workspace_label
+        title: linear_workspace_label Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "Tech Debt"
+                }
+        argumentDocs:
+            color: (String) Color of the label.
+            description: (String) Description of the label.
+            id: (String) Identifier of the label.
+            is_group: (Boolean) Whether the label is a group (parent) label.
+            name: (String) Name of the label.
+            parent_id: (String) Parent (label group) of the label.
+        importStatements:
+            - terraform import linear_workspace_label.example Bug
+    linear_workspace_settings:
+        subCategory: ""
+        description: Linear workspace settings.
+        name: linear_workspace_settings
+        title: linear_workspace_settings Resource - terraform-provider-linear
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "enable_git_linkback_messages_public": true
+                }
+        argumentDocs:
+            allow_members_to_create_teams: (Boolean) Allow members to create new teams in the workspace. Default true.
+            allow_members_to_invite: (Boolean) Allow members to invite new members to the workspace. Default true.
+            allow_members_to_manage_labels: (Boolean) Allow members to manage labels in the workspace. Default true.
+            allow_members_to_manage_templates: (Boolean) Allow members to manage templates in the workspace. Default true.
+            customers: (Attributes) Customer Requests settings for the workspace. (see below for nested schema)
+            enable_git_linkback_messages: (Boolean) Enable git linkbacks for private repositories. Default true.
+            enable_git_linkback_messages_public: (Boolean) Enable git linkbacks for public repositories. Default false.
+            enabled: (Boolean) Enable customer requests. Default false.
+            feed: (Attributes) Feed settings for the workspace. (see below for nested schema)
+            fiscal_year_start_month: (Number) Month at which the fiscal year starts. Default 0 representing January.
+            id: (String) Identifier of the workspace.
+            initiatives: (Attributes) Initiative settings for the workspace. (see below for nested schema)
+            projects: (Attributes) Project settings for the workspace. (see below for nested schema)
+            schedule: (String) Schedule for feed summaries (daily, weekly). Default daily.
+            update_reminder_day: (String) Day on which to prompt for initiative updates. Default Friday.
+            update_reminder_frequency: (Number) Frequency in weeks to send initiative update reminders. Default 0.
+            update_reminder_hour: (Number) Hour of day (0-23) at which to prompt for initiative updates. Default 14.
+        importStatements:
+            - terraform import linear_workspace_settings.example example
