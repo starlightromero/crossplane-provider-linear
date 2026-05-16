@@ -13,4 +13,8 @@ const (
 	// Management Policies. See the below design for more details.
 	// https://github.com/crossplane/crossplane/pull/3531
 	EnableAlphaManagementPolicies feature.Flag = "EnableAlphaManagementPolicies"
+
+	// EnableBetaManagementPolicies enables beta support for
+	// Management Policies.
+	EnableBetaManagementPolicies feature.Flag = "EnableBetaManagementPolicies"
 )

@@ -57,6 +57,9 @@ func GetProvider() (*ujconfig.Provider, error) {
 		ujconfig.WithShortName(ProviderShortName),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
+		ujconfig.WithBasePackages(ujconfig.BasePackages{
+			ControllerMap: map[string]string{},
+		}),
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
 		),
