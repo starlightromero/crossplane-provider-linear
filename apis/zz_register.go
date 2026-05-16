@@ -14,6 +14,7 @@ import (
 	v1alpha1teamlabel "github.com/avodah-inc/provider-linear/apis/teamlabel/v1alpha1"
 	v1alpha1teamworkflow "github.com/avodah-inc/provider-linear/apis/teamworkflow/v1alpha1"
 	v1alpha1template "github.com/avodah-inc/provider-linear/apis/template/v1alpha1"
+	v1alpha1pc "github.com/avodah-inc/provider-linear/apis/v1alpha1"
 	v1alpha1workflowstate "github.com/avodah-inc/provider-linear/apis/workflowstate/v1alpha1"
 	v1alpha1workspacelabel "github.com/avodah-inc/provider-linear/apis/workspacelabel/v1alpha1"
 	v1alpha1workspacesettings "github.com/avodah-inc/provider-linear/apis/workspacesettings/v1alpha1"
@@ -23,6 +24,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1pc.SchemeBuilder.AddToScheme,
 		v1alpha1teamlabel.SchemeBuilder.AddToScheme,
 		v1alpha1teamworkflow.SchemeBuilder.AddToScheme,
 		v1alpha1template.SchemeBuilder.AddToScheme,
