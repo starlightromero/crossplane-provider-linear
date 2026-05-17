@@ -26,11 +26,14 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/ratelimiter"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 
 	"github.com/avodah-inc/provider-linear/apis"
 	"github.com/avodah-inc/provider-linear/config"
+	"github.com/avodah-inc/provider-linear/internal/clients"
 	"github.com/avodah-inc/provider-linear/internal/controller"
 	"github.com/avodah-inc/provider-linear/internal/features"
+	"github.com/avodah-inc/provider-linear/internal/version"
 )
 
 func main() {
@@ -104,12 +107,12 @@ func main() {
 	// Configure the Upjet controller options. The no-fork runtime mode
 	// means the Terraform provider runs in-process — no external Terraform
 	// binary or workspace directory is needed.
+	ws := terraform.NewWorkspaceStore(log)
+
 	o := tjcontroller.Options{
-		Provider: provider,
-		// TODO(task 6): Wire SetupFn to the auth module's
-		// TerraformSetupBuilder once authentication is implemented.
-		// SetupFn configures the Terraform provider with credentials
-		// from the ProviderConfig during each reconciliation cycle.
+		Provider:       provider,
+		WorkspaceStore: ws,
+		SetupFn:        clients.TerraformSetupBuilder(version.Version, config.TerraformProviderSource, config.TerraformProviderVersion),
 	}
 	o.Logger = log
 	o.GlobalRateLimiter = ratelimiter.NewGlobal(*maxReconcileRate)
