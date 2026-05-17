@@ -21,7 +21,7 @@ const (
 // Validations: workflow state UUID fields (draft, start, review, mergeable, merge).
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_team_workflow", func(r *ujconfig.Resource) {
-		r.ShortGroup = "teamworkflow"
+		r.ShortGroup = ""
 		r.Kind = "TeamWorkflow"
 		r.Version = "v1alpha1"
 
