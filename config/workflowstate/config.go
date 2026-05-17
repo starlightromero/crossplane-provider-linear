@@ -22,7 +22,7 @@ const (
 // Immutable: type and teamId (cannot be changed after creation).
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_workflow_state", func(r *ujconfig.Resource) {
-		r.ShortGroup = "workflowstate"
+		r.ShortGroup = ""
 		r.Kind = "WorkflowState"
 		r.Version = "v1alpha1"
 

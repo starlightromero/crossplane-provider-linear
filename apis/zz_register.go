@@ -10,14 +10,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/avodah-inc/provider-linear/apis/team/v1alpha1"
-	v1alpha1teamlabel "github.com/avodah-inc/provider-linear/apis/teamlabel/v1alpha1"
-	v1alpha1teamworkflow "github.com/avodah-inc/provider-linear/apis/teamworkflow/v1alpha1"
-	v1alpha1template "github.com/avodah-inc/provider-linear/apis/template/v1alpha1"
-	v1alpha1workflowstate "github.com/avodah-inc/provider-linear/apis/workflowstate/v1alpha1"
-	v1alpha1workspacelabel "github.com/avodah-inc/provider-linear/apis/workspacelabel/v1alpha1"
+	v1alpha1 "github.com/avodah-inc/provider-linear/apis/linear/v1alpha1"
 	v1alpha1pc "github.com/avodah-inc/provider-linear/apis/v1alpha1"
-	v1alpha1workspacesettings "github.com/avodah-inc/provider-linear/apis/workspacesettings/v1alpha1"
 )
 
 func init() {
@@ -25,12 +19,6 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1pc.SchemeBuilder.AddToScheme,
-		v1alpha1teamlabel.SchemeBuilder.AddToScheme,
-		v1alpha1teamworkflow.SchemeBuilder.AddToScheme,
-		v1alpha1template.SchemeBuilder.AddToScheme,
-		v1alpha1workflowstate.SchemeBuilder.AddToScheme,
-		v1alpha1workspacelabel.SchemeBuilder.AddToScheme,
-		v1alpha1workspacesettings.SchemeBuilder.AddToScheme,
 	)
 }
 

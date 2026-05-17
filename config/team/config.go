@@ -18,7 +18,7 @@ import (
 // completed, canceled), triage, cycles, estimation.
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_team", func(r *ujconfig.Resource) {
-		r.ShortGroup = "team"
+		r.ShortGroup = ""
 		r.Kind = "Team"
 		r.Version = "v1alpha1"
 

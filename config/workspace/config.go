@@ -11,7 +11,7 @@ import (
 // Read-only: no writable spec fields; status populates id, name, urlKey.
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_workspace", func(r *ujconfig.Resource) {
-		r.ShortGroup = "workspace"
+		r.ShortGroup = ""
 		r.Kind = "Workspace"
 		r.Version = "v1alpha1"
 

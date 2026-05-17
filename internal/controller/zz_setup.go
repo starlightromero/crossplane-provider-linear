@@ -9,13 +9,13 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	team "github.com/avodah-inc/provider-linear/internal/controller/team/team"
-	teamlabel "github.com/avodah-inc/provider-linear/internal/controller/teamlabel/teamlabel"
-	teamworkflow "github.com/avodah-inc/provider-linear/internal/controller/teamworkflow/teamworkflow"
-	template "github.com/avodah-inc/provider-linear/internal/controller/template/template"
-	workflowstate "github.com/avodah-inc/provider-linear/internal/controller/workflowstate/workflowstate"
-	workspacelabel "github.com/avodah-inc/provider-linear/internal/controller/workspacelabel/workspacelabel"
-	workspacesettings "github.com/avodah-inc/provider-linear/internal/controller/workspacesettings/workspacesettings"
+	team "github.com/avodah-inc/provider-linear/internal/controller/linear/team"
+	teamlabel "github.com/avodah-inc/provider-linear/internal/controller/linear/teamlabel"
+	teamworkflow "github.com/avodah-inc/provider-linear/internal/controller/linear/teamworkflow"
+	template "github.com/avodah-inc/provider-linear/internal/controller/linear/template"
+	workflowstate "github.com/avodah-inc/provider-linear/internal/controller/linear/workflowstate"
+	workspacelabel "github.com/avodah-inc/provider-linear/internal/controller/linear/workspacelabel"
+	workspacesettings "github.com/avodah-inc/provider-linear/internal/controller/linear/workspacesettings"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to

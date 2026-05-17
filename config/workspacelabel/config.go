@@ -15,7 +15,7 @@ import (
 // Validations: name (min 1), color (hex).
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_workspace_label", func(r *ujconfig.Resource) {
-		r.ShortGroup = "workspacelabel"
+		r.ShortGroup = ""
 		r.Kind = "WorkspaceLabel"
 		r.Version = "v1alpha1"
 

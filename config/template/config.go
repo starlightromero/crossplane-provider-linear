@@ -22,7 +22,7 @@ const DefaultTemplateType = "issue"
 // Validations: name (min 1), data (valid JSON), type (enum, default "issue").
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_template", func(r *ujconfig.Resource) {
-		r.ShortGroup = "template"
+		r.ShortGroup = ""
 		r.Kind = "Template"
 		r.Version = "v1alpha1"
 

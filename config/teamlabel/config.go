@@ -22,7 +22,7 @@ const (
 // Immutable: teamId (cannot be changed after creation).
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_team_label", func(r *ujconfig.Resource) {
-		r.ShortGroup = "teamlabel"
+		r.ShortGroup = ""
 		r.Kind = "TeamLabel"
 		r.Version = "v1alpha1"
 

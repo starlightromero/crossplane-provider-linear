@@ -18,7 +18,7 @@ import (
 // Sub-objects: projects, initiatives, feed, customers.
 func Configure(p *ujconfig.Provider) {
 	p.AddResourceConfigurator("linear_workspace_settings", func(r *ujconfig.Resource) {
-		r.ShortGroup = "workspacesettings"
+		r.ShortGroup = ""
 		r.Kind = "WorkspaceSettings"
 		r.Version = "v1alpha1"
 
