@@ -147,4 +147,25 @@ func runPostgen(root string) {
 			[]byte(fmt.Sprintf(managedTemplate, "v1alpha1", typeName)), 0644)
 		fmt.Printf("Generated managed shims: %s\n", typeName)
 	}
+
+	// Patch zz_register.go to include the ProviderConfig package.
+	registerFile := filepath.Join(apisDir, "zz_register.go")
+	data, err := os.ReadFile(registerFile)
+	if err == nil {
+		content := string(data)
+		pcImport := `v1alpha1pc "github.com/avodah-inc/provider-linear/apis/v1alpha1"`
+		if !strings.Contains(content, pcImport) {
+			// Add import after the last v1alpha1 import line.
+			content = strings.Replace(content,
+				`v1alpha1workspacesettings "github.com/avodah-inc/provider-linear/apis/workspacesettings/v1alpha1"`,
+				`v1alpha1pc "github.com/avodah-inc/provider-linear/apis/v1alpha1"`+"\n\t"+
+					`v1alpha1workspacesettings "github.com/avodah-inc/provider-linear/apis/workspacesettings/v1alpha1"`, 1)
+			// Add scheme registration.
+			content = strings.Replace(content,
+				"v1alpha1.SchemeBuilder.AddToScheme,",
+				"v1alpha1.SchemeBuilder.AddToScheme,\n\t\tv1alpha1pc.SchemeBuilder.AddToScheme,", 1)
+			os.WriteFile(registerFile, []byte(content), 0755)
+			fmt.Println("Patched zz_register.go: added ProviderConfig package")
+		}
+	}
 }
