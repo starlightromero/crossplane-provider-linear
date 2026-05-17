@@ -13,10 +13,14 @@ import (
 // ProviderCredentials holds the credentials configuration for the provider.
 type ProviderCredentials struct {
 	// Source of the provider credentials.
-	// +kubebuilder:validation:Enum=Secret
+	// +kubebuilder:validation:Enum=Secret;OAuth2ClientCredentials;OAuth2
 	Source xpv1.CredentialsSource `json:"source"`
 
 	xpv1.CommonCredentialSelectors `json:",inline"`
+
+	// Scope is the OAuth2 scope to request when using OAuth2 authentication.
+	// +optional
+	Scope string `json:"scope,omitempty"`
 }
 
 // ProviderConfigSpec defines the desired state of ProviderConfig.

@@ -76,6 +76,10 @@ spec:
                     required:
                     - path
                     type: object
+                  scope:
+                    description: Scope is the OAuth2 scope to request when using OAuth2
+                      authentication.
+                    type: string
                   secretRef:
                     description: |-
                       A SecretRef is a reference to a secret key that contains the credentials
@@ -99,6 +103,8 @@ spec:
                     description: Source of the provider credentials.
                     enum:
                     - Secret
+                    - OAuth2ClientCredentials
+                    - OAuth2
                     type: string
                 required:
                 - source
