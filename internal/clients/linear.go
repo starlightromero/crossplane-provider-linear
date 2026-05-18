@@ -123,7 +123,9 @@ func exchangeClientCredentials(ctx context.Context, secret *corev1.Secret, scope
 		"scope":         {scope},
 	}
 
-	httpCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	// Use a fresh context for the HTTP request to avoid inheriting the
+	// reconciler's short deadline which causes premature cancellation.
+	httpCtx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
 	req, err := http.NewRequestWithContext(httpCtx, http.MethodPost, auth.LinearTokenEndpoint, strings.NewReader(data.Encode()))
