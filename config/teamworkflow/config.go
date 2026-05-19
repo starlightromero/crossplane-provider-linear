@@ -27,6 +27,7 @@ func Configure(p *ujconfig.Provider) {
 
 		// External name: team_key or team_key:branch_pattern:is_regex.
 		r.ExternalName = ujconfig.ExternalName{
+				GetIDFn: ujconfig.ExternalNameAsID,
 			SetIdentifierArgumentFn: func(base map[string]any, externalName string) {
 				parts := strings.SplitN(externalName, ":", 3)
 				if len(parts) >= 1 {

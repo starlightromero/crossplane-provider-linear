@@ -25,6 +25,7 @@ func Configure(p *ujconfig.Provider) {
 		// External name: Linear-assigned UUID. The workspace settings
 		// resource is a singleton; the provider assigns the identifier.
 		r.ExternalName = ujconfig.ExternalName{
+				GetIDFn: ujconfig.ExternalNameAsID,
 			SetIdentifierArgumentFn: func(base map[string]any, externalName string) {
 				base["id"] = externalName
 			},

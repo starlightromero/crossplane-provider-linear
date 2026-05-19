@@ -28,6 +28,7 @@ func Configure(p *ujconfig.Provider) {
 
 		// External name: composite key label_name:team_key.
 		r.ExternalName = ujconfig.ExternalName{
+				GetIDFn: ujconfig.ExternalNameAsID,
 			SetIdentifierArgumentFn: func(base map[string]any, externalName string) {
 				parts := strings.SplitN(externalName, ":", 2)
 				if len(parts) == 2 {
