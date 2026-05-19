@@ -2,3 +2,39 @@
 # Add CVE IDs or package names to suppress known false positives
 # Format: CVE-YYYY-NNNNN or package:name
 # See: https://aquasecurity.github.io/trivy/latest/docs/configuration/filtering/#by-finding-ids
+
+# Vulnerabilities in the bundled terraform binary (HashiCorp-controlled).
+# These will be resolved by CLI-3755 (migrate to no-fork mode, removing
+# the terraform binary entirely).
+CVE-2026-33186
+CVE-2025-68121
+CVE-2025-8959
+CVE-2026-4660
+CVE-2026-24051
+CVE-2026-39883
+CVE-2025-22874
+CVE-2025-47907
+CVE-2025-58183
+CVE-2025-61726
+CVE-2025-61728
+CVE-2025-61729
+CVE-2026-25679
+CVE-2026-32280
+CVE-2026-32281
+CVE-2026-32283
+CVE-2026-33811
+CVE-2026-33814
+CVE-2026-39820
+CVE-2026-39836
+CVE-2026-42499
+
+# Vulnerabilities in the bundled terraform-provider-linear plugin binary
+# (compiled with Go 1.19 by upstream terraform-community-providers).
+# These will be resolved by CLI-3755 (migrate to no-fork mode, removing
+# the plugin binary entirely).
+CVE-2024-24790
+CVE-2023-39325
+CVE-2023-45283
+CVE-2023-45287
+CVE-2023-45288
+CVE-2024-34156
