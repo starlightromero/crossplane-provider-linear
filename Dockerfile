@@ -25,9 +25,13 @@ RUN apk add --no-cache curl unzip && \
     unzip /tmp/terraform.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/terraform
 
-RUN mkdir -p /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH} && \
-    curl -fsSL "https://github.com/terraform-community-providers/terraform-provider-linear/releases/download/v0.3.7/terraform-provider-linear_0.3.7_linux_${TARGETARCH}.zip" -o /tmp/provider.zip && \
-    unzip /tmp/provider.zip -d /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH}/
+# Build the Linear provider plugin from our fork (includes Entity not found fix)
+RUN apk add --no-cache go git && \
+    git clone --depth 1 --branch fix/read-not-found https://github.com/starlightromero/terraform-provider-linear.git /tmp/tf-linear && \
+    cd /tmp/tf-linear && \
+    CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -o /tmp/terraform-provider-linear . && \
+    mkdir -p /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH} && \
+    mv /tmp/terraform-provider-linear /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH}/terraform-provider-linear_v0.3.7
 
 # Create terraformrc for filesystem mirror
 RUN printf 'provider_installation {\n  filesystem_mirror {\n    path = "/terraform-plugins"\n  }\n}\n' > /terraformrc
