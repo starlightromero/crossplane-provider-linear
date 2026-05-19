@@ -25,9 +25,9 @@ RUN apk add --no-cache curl unzip && \
     unzip /tmp/terraform.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/terraform
 
-RUN mkdir -p /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.5.0/linux_${TARGETARCH} && \
+RUN mkdir -p /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH} && \
     curl -fsSL "https://github.com/terraform-community-providers/terraform-provider-linear/releases/download/v0.3.7/terraform-provider-linear_0.3.7_linux_${TARGETARCH}.zip" -o /tmp/provider.zip && \
-    unzip /tmp/provider.zip -d /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.5.0/linux_${TARGETARCH}/
+    unzip /tmp/provider.zip -d /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH}/
 
 # Create terraformrc for filesystem mirror
 RUN printf 'provider_installation {\n  filesystem_mirror {\n    path = "/terraform-plugins"\n  }\n}\n' > /terraformrc
@@ -37,9 +37,9 @@ FROM gcr.io/distroless/static:nonroot@sha256:e3f945647ffb95b5839c07038d64f9811ad
 COPY --from=builder /usr/local/bin/provider-linear /usr/local/bin/provider-linear
 COPY --from=terraform /usr/local/bin/terraform /usr/local/bin/terraform
 COPY --from=terraform /terraform-plugins /terraform-plugins
-COPY --from=terraform /terraformrc /home/nonroot/.terraformrc
+COPY --from=terraform /terraformrc /.terraformrc
 
-ENV TF_CLI_CONFIG_FILE=/home/nonroot/.terraformrc
+ENV TF_CLI_CONFIG_FILE=/.terraformrc
 USER 65532:65532
 
 # Prometheus metrics endpoint
