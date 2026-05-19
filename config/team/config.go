@@ -25,6 +25,7 @@ func Configure(p *ujconfig.Provider) {
 		// External name: the team key (e.g., "ENG") serves as the
 		// Terraform import identifier.
 		r.ExternalName = ujconfig.ExternalName{
+				GetIDFn: ujconfig.ExternalNameAsID,
 			SetIdentifierArgumentFn: func(base map[string]any, externalName string) {
 				base["key"] = externalName
 			},

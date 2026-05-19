@@ -29,6 +29,7 @@ func Configure(p *ujconfig.Provider) {
 		// External name: Linear-assigned UUID. The provider assigns the
 		// identifier on creation; Crossplane reads it back from state.
 		r.ExternalName = ujconfig.ExternalName{
+				GetIDFn: ujconfig.ExternalNameAsID,
 			SetIdentifierArgumentFn: func(base map[string]any, externalName string) {
 				base["id"] = externalName
 			},

@@ -21,6 +21,7 @@ func Configure(p *ujconfig.Provider) {
 
 		// External name: the label name serves as the import identifier.
 		r.ExternalName = ujconfig.ExternalName{
+				GetIDFn: ujconfig.ExternalNameAsID,
 			SetIdentifierArgumentFn: func(base map[string]any, externalName string) {
 				base["name"] = externalName
 			},
