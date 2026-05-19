@@ -71,12 +71,9 @@ func main() {
 
 	zl := zap.New(zap.UseDevMode(*debug))
 	log := logging.NewLogrLogger(zl.WithName("provider-linear"))
-	if *debug {
-		// The controller-runtime runs with a no-op logger by default. It is
-		// *very* verbose even at info level, so we only use it when running
-		// in debug mode.
-		ctrl.SetLogger(zl)
-	}
+	// Always set the controller-runtime logger to surface controller
+	// registration and reconciliation activity.
+	ctrl.SetLogger(zl)
 
 	cfg, err := ctrl.GetConfig()
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
