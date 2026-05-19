@@ -5,7 +5,7 @@ package config
 const TerraformProviderSource = "terraform-community-providers/linear"
 
 // TerraformProviderVersion is the version of the upstream Terraform provider.
-const TerraformProviderVersion = "0.5.0"
+const TerraformProviderVersion = "0.3.7"
 
 // ProviderCRDGroup is the CRD API group for all Linear resources.
 const ProviderCRDGroup = "linear.crossplane.io"
