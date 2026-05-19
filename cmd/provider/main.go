@@ -107,7 +107,7 @@ func main() {
 	// Configure the Upjet controller options. The no-fork runtime mode
 	// means the Terraform provider runs in-process — no external Terraform
 	// binary or workspace directory is needed.
-	ws := terraform.NewWorkspaceStore(log)
+	ws := terraform.NewWorkspaceStore(log, terraform.WithDisableInit(true))
 
 	o := tjcontroller.Options{
 		Provider:       provider,
