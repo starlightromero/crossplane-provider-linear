@@ -11,6 +11,7 @@ import (
 
 	team "github.com/avodah-inc/provider-linear/internal/controller/linear/team"
 	teamlabel "github.com/avodah-inc/provider-linear/internal/controller/linear/teamlabel"
+	teammembership "github.com/avodah-inc/provider-linear/internal/controller/linear/teammembership"
 	teamworkflow "github.com/avodah-inc/provider-linear/internal/controller/linear/teamworkflow"
 	template "github.com/avodah-inc/provider-linear/internal/controller/linear/template"
 	workflowstate "github.com/avodah-inc/provider-linear/internal/controller/linear/workflowstate"
@@ -24,6 +25,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		team.Setup,
 		teamlabel.Setup,
+		teammembership.Setup,
 		teamworkflow.Setup,
 		template.Setup,
 		workflowstate.Setup,
@@ -43,6 +45,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		team.SetupGated,
 		teamlabel.SetupGated,
+		teammembership.SetupGated,
 		teamworkflow.SetupGated,
 		template.SetupGated,
 		workflowstate.SetupGated,

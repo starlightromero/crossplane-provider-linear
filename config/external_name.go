@@ -47,6 +47,9 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 
 	// Workspace: data source, imported by Linear-assigned UUID.
 	"linear_workspace": config.IdentifierFromProvider,
+
+	// TeamMembership: imported by Linear-assigned UUID.
+	"linear_team_membership": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
