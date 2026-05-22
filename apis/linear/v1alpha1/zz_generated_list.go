@@ -26,6 +26,15 @@ func (l *TeamLabelList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this TeamMembershipList.
+func (l *TeamMembershipList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this TeamWorkflowList.
 func (l *TeamWorkflowList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

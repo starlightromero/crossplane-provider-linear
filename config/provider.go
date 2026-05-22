@@ -12,6 +12,7 @@ import (
 
 	"github.com/avodah-inc/provider-linear/config/team"
 	"github.com/avodah-inc/provider-linear/config/teamlabel"
+	"github.com/avodah-inc/provider-linear/config/teammembership"
 	"github.com/avodah-inc/provider-linear/config/teamworkflow"
 	"github.com/avodah-inc/provider-linear/config/template"
 	"github.com/avodah-inc/provider-linear/config/workflowstate"
@@ -69,6 +70,7 @@ func GetProvider() (*ujconfig.Provider, error) {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		team.Configure,
 		teamlabel.Configure,
+		teammembership.Configure,
 		teamworkflow.Configure,
 		template.Configure,
 		workflowstate.Configure,

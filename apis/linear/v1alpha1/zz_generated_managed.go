@@ -35,6 +35,18 @@ func (mg *TeamLabel) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.De
 func (mg *TeamLabel) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
 var _ resource.Managed = &TeamLabel{}
 
+func (mg *TeamMembership) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
+func (mg *TeamMembership) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
+func (mg *TeamMembership) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
+func (mg *TeamMembership) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
+func (mg *TeamMembership) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
+func (mg *TeamMembership) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
+func (mg *TeamMembership) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *TeamMembership) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
+func (mg *TeamMembership) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
+func (mg *TeamMembership) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+var _ resource.Managed = &TeamMembership{}
+
 func (mg *TeamWorkflow) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *TeamWorkflow) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *TeamWorkflow) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
