@@ -1,0 +1,11 @@
+apiVersion: linear.crossplane.io/v1alpha1
+kind: User
+metadata:
+  name: example-user
+spec:
+  managementPolicies:
+    - Observe
+  forProvider:
+    email: "user@example.com"
+  providerConfigRef:
+    name: linear-provider-config

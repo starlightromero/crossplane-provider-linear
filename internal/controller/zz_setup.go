@@ -14,6 +14,7 @@ import (
 	teammembership "github.com/avodah-inc/provider-linear/internal/controller/linear/teammembership"
 	teamworkflow "github.com/avodah-inc/provider-linear/internal/controller/linear/teamworkflow"
 	template "github.com/avodah-inc/provider-linear/internal/controller/linear/template"
+	user "github.com/avodah-inc/provider-linear/internal/controller/linear/user"
 	workflowstate "github.com/avodah-inc/provider-linear/internal/controller/linear/workflowstate"
 	workspacelabel "github.com/avodah-inc/provider-linear/internal/controller/linear/workspacelabel"
 	workspacesettings "github.com/avodah-inc/provider-linear/internal/controller/linear/workspacesettings"
@@ -31,6 +32,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		workflowstate.Setup,
 		workspacelabel.Setup,
 		workspacesettings.Setup,
+		user.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -51,6 +53,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		workflowstate.SetupGated,
 		workspacelabel.SetupGated,
 		workspacesettings.SetupGated,
+		user.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

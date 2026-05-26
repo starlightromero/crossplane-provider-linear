@@ -185,6 +185,30 @@ var _ resource.Managed = &%[1]s{}
 		}
 	}
 
+	// Patch zz_setup.go to include custom (non-Upjet) controllers.
+	setupFile := filepath.Join(controllerDir, "zz_setup.go")
+	setupData, err := os.ReadFile(setupFile)
+	if err == nil {
+		setupContent := string(setupData)
+		userImport := `user "github.com/avodah-inc/provider-linear/internal/controller/linear/user"`
+		if !strings.Contains(setupContent, userImport) {
+			// Add import in alphabetical order (before workflowstate).
+			setupContent = strings.Replace(setupContent,
+				`workflowstate "github.com/avodah-inc/provider-linear/internal/controller/linear/workflowstate"`,
+				userImport+"\n\t"+`workflowstate "github.com/avodah-inc/provider-linear/internal/controller/linear/workflowstate"`, 1)
+			// Add to Setup (after workspacesettings).
+			setupContent = strings.Replace(setupContent,
+				"workspacesettings.Setup,\n\t} {",
+				"workspacesettings.Setup,\n\t\tuser.Setup,\n\t} {", 1)
+			// Add to SetupGated (after workspacesettings).
+			setupContent = strings.Replace(setupContent,
+				"workspacesettings.SetupGated,\n\t} {",
+				"workspacesettings.SetupGated,\n\t\tuser.SetupGated,\n\t} {", 1)
+			os.WriteFile(setupFile, []byte(setupContent), 0755)
+			fmt.Println("Patched zz_setup.go: added User controller")
+		}
+	}
+
 	// Patch zz_register.go to include the ProviderConfig package.
 	registerFile := filepath.Join(apisDir, "zz_register.go")
 	data, err := os.ReadFile(registerFile)
