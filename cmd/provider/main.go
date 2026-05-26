@@ -94,8 +94,8 @@ func main() {
 	// Configure feature flags for the Crossplane runtime.
 	featureFlags := &feature.Flags{}
 	if *enableManagementPolicies {
-		featureFlags.Enable(features.EnableAlphaManagementPolicies)
-		log.Info("Alpha feature enabled", "flag", features.EnableAlphaManagementPolicies)
+		featureFlags.Enable(features.EnableBetaManagementPolicies)
+		log.Info("Beta feature enabled", "flag", features.EnableBetaManagementPolicies)
 	}
 
 	// Build the Upjet provider configuration. This bridges the upstream
