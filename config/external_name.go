@@ -50,6 +50,12 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 
 	// TeamMembership: imported by Linear-assigned UUID.
 	"linear_team_membership": config.IdentifierFromProvider,
+
+	// ReleasePipeline: imported by Linear-assigned UUID.
+	"linear_release_pipeline": config.IdentifierFromProvider,
+
+	// ReleaseStage: imported by Linear-assigned UUID.
+	"linear_release_stage": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

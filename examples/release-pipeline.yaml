@@ -1,0 +1,17 @@
+---
+# Example ReleasePipeline managed resource
+apiVersion: linear.crossplane.io/v1alpha1
+kind: ReleasePipeline
+metadata:
+  name: production
+spec:
+  forProvider:
+    name: "Production"
+    type: "continuous"
+    isProduction: true
+    includePathPatterns:
+      - "src/**"
+    teamIds:
+      - "your-team-id-here"
+  providerConfigRef:
+    name: default

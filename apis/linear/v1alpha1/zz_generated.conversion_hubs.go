@@ -7,13 +7,16 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *ReleasePipeline) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReleaseStage) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Team) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TeamLabel) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TeamMembership) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TeamWorkflow) Hub() {}

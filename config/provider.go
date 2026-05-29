@@ -15,6 +15,8 @@ import (
 	"github.com/avodah-inc/provider-linear/config/teammembership"
 	"github.com/avodah-inc/provider-linear/config/teamworkflow"
 	"github.com/avodah-inc/provider-linear/config/template"
+	"github.com/avodah-inc/provider-linear/config/releasepipeline"
+	"github.com/avodah-inc/provider-linear/config/releasestage"
 	"github.com/avodah-inc/provider-linear/config/workflowstate"
 	"github.com/avodah-inc/provider-linear/config/workspace"
 	"github.com/avodah-inc/provider-linear/config/workspacelabel"
@@ -73,6 +75,8 @@ func GetProvider() (*ujconfig.Provider, error) {
 		teammembership.Configure,
 		teamworkflow.Configure,
 		template.Configure,
+		releasepipeline.Configure,
+		releasestage.Configure,
 		workflowstate.Configure,
 		workspacelabel.Configure,
 		workspacesettings.Configure,

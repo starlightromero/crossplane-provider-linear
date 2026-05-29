@@ -11,6 +11,30 @@ import (
 	resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 )
 
+func (mg *ReleasePipeline) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
+func (mg *ReleasePipeline) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
+func (mg *ReleasePipeline) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
+func (mg *ReleasePipeline) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
+func (mg *ReleasePipeline) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
+func (mg *ReleasePipeline) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
+func (mg *ReleasePipeline) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *ReleasePipeline) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
+func (mg *ReleasePipeline) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
+func (mg *ReleasePipeline) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+var _ resource.Managed = &ReleasePipeline{}
+
+func (mg *ReleaseStage) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
+func (mg *ReleaseStage) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
+func (mg *ReleaseStage) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
+func (mg *ReleaseStage) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
+func (mg *ReleaseStage) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
+func (mg *ReleaseStage) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
+func (mg *ReleaseStage) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *ReleaseStage) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
+func (mg *ReleaseStage) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
+func (mg *ReleaseStage) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+var _ resource.Managed = &ReleaseStage{}
+
 func (mg *Team) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *Team) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *Team) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }

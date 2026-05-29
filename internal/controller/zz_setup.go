@@ -9,9 +9,10 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	releasepipeline "github.com/avodah-inc/provider-linear/internal/controller/linear/releasepipeline"
+	releasestage "github.com/avodah-inc/provider-linear/internal/controller/linear/releasestage"
 	team "github.com/avodah-inc/provider-linear/internal/controller/linear/team"
 	teamlabel "github.com/avodah-inc/provider-linear/internal/controller/linear/teamlabel"
-	teammembership "github.com/avodah-inc/provider-linear/internal/controller/linear/teammembership"
 	teamworkflow "github.com/avodah-inc/provider-linear/internal/controller/linear/teamworkflow"
 	template "github.com/avodah-inc/provider-linear/internal/controller/linear/template"
 	user "github.com/avodah-inc/provider-linear/internal/controller/linear/user"
@@ -24,9 +25,10 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		releasepipeline.Setup,
+		releasestage.Setup,
 		team.Setup,
 		teamlabel.Setup,
-		teammembership.Setup,
 		teamworkflow.Setup,
 		template.Setup,
 		workflowstate.Setup,
@@ -45,9 +47,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		releasepipeline.SetupGated,
+		releasestage.SetupGated,
 		team.SetupGated,
 		teamlabel.SetupGated,
-		teammembership.SetupGated,
 		teamworkflow.SetupGated,
 		template.SetupGated,
 		workflowstate.SetupGated,
