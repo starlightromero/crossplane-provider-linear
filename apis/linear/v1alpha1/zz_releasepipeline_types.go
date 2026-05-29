@@ -13,7 +13,43 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type DefaultStageInitParameters struct {
+
+	// Color of the stage. **Default** `#f59e0b`.
+	Color *string `json:"color,omitempty" tf:"color,omitempty"`
+
+	// Name of the stage. **Default** `Started`.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type DefaultStageObservation struct {
+
+	// Color of the stage. **Default** `#f59e0b`.
+	Color *string `json:"color,omitempty" tf:"color,omitempty"`
+
+	// Identifier of the release stage.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Name of the stage. **Default** `Started`.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Position of the stage.
+	Position *float64 `json:"position,omitempty" tf:"position,omitempty"`
+}
+
+type DefaultStageParameters struct {
+
+	// Color of the stage. **Default** `#f59e0b`.
+	// +kubebuilder:validation:Optional
+	Color *string `json:"color,omitempty" tf:"color,omitempty"`
+
+	// Name of the stage. **Default** `Started`.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type ReleasePipelineInitParameters struct {
+	DefaultStage *DefaultStageInitParameters `json:"defaultStage,omitempty" tf:"default_stage,omitempty"`
 
 	// Glob patterns to filter commits by file path.
 	IncludePathPatterns []*string `json:"includePathPatterns,omitempty" tf:"include_path_patterns,omitempty"`
@@ -26,13 +62,15 @@ type ReleasePipelineInitParameters struct {
 
 	// Identifiers of the teams associated with this pipeline.
 	// +listType=set
-	TeamIds []*string `json:"teamIds,omitempty" tf:"team_ids,omitempty"`
+	Teams []*string `json:"teams,omitempty" tf:"teams,omitempty"`
 
-	// Type of the pipeline: `continuous` or `scheduled`.
+	// Type of the pipeline: `continuous` or `scheduled`. **Default** `continuous`.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ReleasePipelineObservation struct {
+	DefaultStage *DefaultStageObservation `json:"defaultStage,omitempty" tf:"default_stage,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Glob patterns to filter commits by file path.
@@ -46,13 +84,16 @@ type ReleasePipelineObservation struct {
 
 	// Identifiers of the teams associated with this pipeline.
 	// +listType=set
-	TeamIds []*string `json:"teamIds,omitempty" tf:"team_ids,omitempty"`
+	Teams []*string `json:"teams,omitempty" tf:"teams,omitempty"`
 
-	// Type of the pipeline: `continuous` or `scheduled`.
+	// Type of the pipeline: `continuous` or `scheduled`. **Default** `continuous`.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ReleasePipelineParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DefaultStage *DefaultStageParameters `json:"defaultStage,omitempty" tf:"default_stage,omitempty"`
 
 	// Glob patterns to filter commits by file path.
 	// +kubebuilder:validation:Optional
@@ -69,9 +110,9 @@ type ReleasePipelineParameters struct {
 	// Identifiers of the teams associated with this pipeline.
 	// +kubebuilder:validation:Optional
 	// +listType=set
-	TeamIds []*string `json:"teamIds,omitempty" tf:"team_ids,omitempty"`
+	Teams []*string `json:"teams,omitempty" tf:"teams,omitempty"`
 
-	// Type of the pipeline: `continuous` or `scheduled`.
+	// Type of the pipeline: `continuous` or `scheduled`. **Default** `continuous`.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

@@ -73,6 +73,15 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  defaultStage:
+                    properties:
+                      color:
+                        description: Color of the stage. **Default** `#f59e0b`.
+                        type: string
+                      name:
+                        description: Name of the stage. **Default** `Started`.
+                        type: string
+                    type: object
                   includePathPatterns:
                     description: Glob patterns to filter commits by file path.
                     items:
@@ -84,14 +93,15 @@ spec:
                   name:
                     description: Name of the release pipeline.
                     type: string
-                  teamIds:
+                  teams:
                     description: Identifiers of the teams associated with this pipeline.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   type:
-                    description: 'Type of the pipeline: `continuous` or `scheduled`.'
+                    description: 'Type of the pipeline: `continuous` or `scheduled`.
+                      **Default** `continuous`.'
                     type: string
                 type: object
               initProvider:
@@ -107,6 +117,15 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  defaultStage:
+                    properties:
+                      color:
+                        description: Color of the stage. **Default** `#f59e0b`.
+                        type: string
+                      name:
+                        description: Name of the stage. **Default** `Started`.
+                        type: string
+                    type: object
                   includePathPatterns:
                     description: Glob patterns to filter commits by file path.
                     items:
@@ -118,14 +137,15 @@ spec:
                   name:
                     description: Name of the release pipeline.
                     type: string
-                  teamIds:
+                  teams:
                     description: Identifiers of the teams associated with this pipeline.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   type:
-                    description: 'Type of the pipeline: `continuous` or `scheduled`.'
+                    description: 'Type of the pipeline: `continuous` or `scheduled`.
+                      **Default** `continuous`.'
                     type: string
                 type: object
               managementPolicies:
@@ -224,6 +244,21 @@ spec:
             properties:
               atProvider:
                 properties:
+                  defaultStage:
+                    properties:
+                      color:
+                        description: Color of the stage. **Default** `#f59e0b`.
+                        type: string
+                      id:
+                        description: Identifier of the release stage.
+                        type: string
+                      name:
+                        description: Name of the stage. **Default** `Started`.
+                        type: string
+                      position:
+                        description: Position of the stage.
+                        type: number
+                    type: object
                   id:
                     type: string
                   includePathPatterns:
@@ -237,14 +272,15 @@ spec:
                   name:
                     description: Name of the release pipeline.
                     type: string
-                  teamIds:
+                  teams:
                     description: Identifiers of the teams associated with this pipeline.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   type:
-                    description: 'Type of the pipeline: `continuous` or `scheduled`.'
+                    description: 'Type of the pipeline: `continuous` or `scheduled`.
+                      **Default** `continuous`.'
                     type: string
                 type: object
               conditions:
