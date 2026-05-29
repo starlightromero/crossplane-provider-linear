@@ -15,118 +15,98 @@ func (mg *ReleasePipeline) GetCondition(ct xpv1.ConditionType) xpv1.Condition { 
 func (mg *ReleasePipeline) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *ReleasePipeline) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *ReleasePipeline) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *ReleasePipeline) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *ReleasePipeline) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *ReleasePipeline) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *ReleasePipeline) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *ReleasePipeline) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *ReleasePipeline) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *ReleasePipeline) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *ReleasePipeline) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *ReleasePipeline) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *ReleasePipeline) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &ReleasePipeline{}
 
 func (mg *ReleaseStage) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *ReleaseStage) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *ReleaseStage) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *ReleaseStage) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *ReleaseStage) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *ReleaseStage) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *ReleaseStage) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *ReleaseStage) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *ReleaseStage) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *ReleaseStage) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *ReleaseStage) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *ReleaseStage) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *ReleaseStage) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *ReleaseStage) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &ReleaseStage{}
 
 func (mg *Team) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *Team) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *Team) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *Team) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *Team) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *Team) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *Team) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *Team) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *Team) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *Team) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *Team) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *Team) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *Team) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *Team) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &Team{}
 
 func (mg *TeamLabel) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *TeamLabel) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *TeamLabel) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *TeamLabel) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *TeamLabel) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *TeamLabel) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *TeamLabel) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *TeamLabel) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *TeamLabel) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *TeamLabel) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *TeamLabel) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *TeamLabel) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *TeamLabel) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *TeamLabel) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &TeamLabel{}
 
 func (mg *TeamMembership) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *TeamMembership) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *TeamMembership) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *TeamMembership) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *TeamMembership) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *TeamMembership) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *TeamMembership) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *TeamMembership) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *TeamMembership) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *TeamMembership) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *TeamMembership) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *TeamMembership) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *TeamMembership) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *TeamMembership) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &TeamMembership{}
 
 func (mg *TeamWorkflow) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *TeamWorkflow) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *TeamWorkflow) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *TeamWorkflow) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *TeamWorkflow) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *TeamWorkflow) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *TeamWorkflow) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *TeamWorkflow) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *TeamWorkflow) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *TeamWorkflow) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *TeamWorkflow) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *TeamWorkflow) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *TeamWorkflow) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *TeamWorkflow) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &TeamWorkflow{}
 
 func (mg *Template) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *Template) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *Template) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *Template) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *Template) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *Template) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *Template) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *Template) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *Template) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *Template) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *Template) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *Template) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *Template) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *Template) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &Template{}
 
 func (mg *WorkflowState) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *WorkflowState) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *WorkflowState) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *WorkflowState) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *WorkflowState) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *WorkflowState) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *WorkflowState) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *WorkflowState) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *WorkflowState) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *WorkflowState) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *WorkflowState) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *WorkflowState) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *WorkflowState) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *WorkflowState) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &WorkflowState{}
 
 func (mg *WorkspaceLabel) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *WorkspaceLabel) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *WorkspaceLabel) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *WorkspaceLabel) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *WorkspaceLabel) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *WorkspaceLabel) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *WorkspaceLabel) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *WorkspaceLabel) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *WorkspaceLabel) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *WorkspaceLabel) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *WorkspaceLabel) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *WorkspaceLabel) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *WorkspaceLabel) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *WorkspaceLabel) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &WorkspaceLabel{}
 
 func (mg *WorkspaceSettings) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.Status.GetCondition(ct) }
 func (mg *WorkspaceSettings) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *WorkspaceSettings) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *WorkspaceSettings) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *WorkspaceSettings) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *WorkspaceSettings) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *WorkspaceSettings) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *WorkspaceSettings) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *WorkspaceSettings) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *WorkspaceSettings) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *WorkspaceSettings) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *WorkspaceSettings) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *WorkspaceSettings) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *WorkspaceSettings) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &WorkspaceSettings{}

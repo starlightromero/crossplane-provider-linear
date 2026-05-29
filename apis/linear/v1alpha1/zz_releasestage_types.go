@@ -11,6 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type ReleaseStageInitParameters struct {
@@ -31,11 +32,11 @@ type ReleaseStageInitParameters struct {
 
 	// Reference to a ReleasePipeline in linear to populate pipelineId.
 	// +kubebuilder:validation:Optional
-	PipelineIDRef *v1.Reference `json:"pipelineIdRef,omitempty" tf:"-"`
+	PipelineIDRef *v1.NamespacedReference `json:"pipelineIdRef,omitempty" tf:"-"`
 
 	// Selector for a ReleasePipeline in linear to populate pipelineId.
 	// +kubebuilder:validation:Optional
-	PipelineIDSelector *v1.Selector `json:"pipelineIdSelector,omitempty" tf:"-"`
+	PipelineIDSelector *v1.NamespacedSelector `json:"pipelineIdSelector,omitempty" tf:"-"`
 
 	// Position of the stage within the pipeline.
 	Position *float64 `json:"position,omitempty" tf:"position,omitempty"`
@@ -89,11 +90,11 @@ type ReleaseStageParameters struct {
 
 	// Reference to a ReleasePipeline in linear to populate pipelineId.
 	// +kubebuilder:validation:Optional
-	PipelineIDRef *v1.Reference `json:"pipelineIdRef,omitempty" tf:"-"`
+	PipelineIDRef *v1.NamespacedReference `json:"pipelineIdRef,omitempty" tf:"-"`
 
 	// Selector for a ReleasePipeline in linear to populate pipelineId.
 	// +kubebuilder:validation:Optional
-	PipelineIDSelector *v1.Selector `json:"pipelineIdSelector,omitempty" tf:"-"`
+	PipelineIDSelector *v1.NamespacedSelector `json:"pipelineIdSelector,omitempty" tf:"-"`
 
 	// Position of the stage within the pipeline.
 	// +kubebuilder:validation:Optional
@@ -106,8 +107,8 @@ type ReleaseStageParameters struct {
 
 // ReleaseStageSpec defines the desired state of ReleaseStage
 type ReleaseStageSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReleaseStageParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            ReleaseStageParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -136,7 +137,7 @@ type ReleaseStageStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,linear}
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,linear}
 type ReleaseStage struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
