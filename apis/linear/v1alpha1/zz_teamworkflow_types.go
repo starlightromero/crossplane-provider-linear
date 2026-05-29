@@ -11,6 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type BranchInitParameters struct {
@@ -65,11 +66,11 @@ type TeamWorkflowInitParameters struct {
 
 	// Reference to a WorkflowState in linear to populate draft.
 	// +kubebuilder:validation:Optional
-	DraftRef *v1.Reference `json:"draftRef,omitempty" tf:"-"`
+	DraftRef *v1.NamespacedReference `json:"draftRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate draft.
 	// +kubebuilder:validation:Optional
-	DraftSelector *v1.Selector `json:"draftSelector,omitempty" tf:"-"`
+	DraftSelector *v1.NamespacedSelector `json:"draftSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when PRs are merged.
 	// Workflow state used when PRs are merged.
@@ -79,11 +80,11 @@ type TeamWorkflowInitParameters struct {
 
 	// Reference to a WorkflowState in linear to populate merge.
 	// +kubebuilder:validation:Optional
-	MergeRef *v1.Reference `json:"mergeRef,omitempty" tf:"-"`
+	MergeRef *v1.NamespacedReference `json:"mergeRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate merge.
 	// +kubebuilder:validation:Optional
-	MergeSelector *v1.Selector `json:"mergeSelector,omitempty" tf:"-"`
+	MergeSelector *v1.NamespacedSelector `json:"mergeSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when PRs become mergeable.
 	// Workflow state used when PRs become mergeable.
@@ -93,11 +94,11 @@ type TeamWorkflowInitParameters struct {
 
 	// Reference to a WorkflowState in linear to populate mergeable.
 	// +kubebuilder:validation:Optional
-	MergeableRef *v1.Reference `json:"mergeableRef,omitempty" tf:"-"`
+	MergeableRef *v1.NamespacedReference `json:"mergeableRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate mergeable.
 	// +kubebuilder:validation:Optional
-	MergeableSelector *v1.Selector `json:"mergeableSelector,omitempty" tf:"-"`
+	MergeableSelector *v1.NamespacedSelector `json:"mergeableSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when reviews are requested on PRs.
 	// Workflow state used when reviews are requested on PRs.
@@ -107,11 +108,11 @@ type TeamWorkflowInitParameters struct {
 
 	// Reference to a WorkflowState in linear to populate review.
 	// +kubebuilder:validation:Optional
-	ReviewRef *v1.Reference `json:"reviewRef,omitempty" tf:"-"`
+	ReviewRef *v1.NamespacedReference `json:"reviewRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate review.
 	// +kubebuilder:validation:Optional
-	ReviewSelector *v1.Selector `json:"reviewSelector,omitempty" tf:"-"`
+	ReviewSelector *v1.NamespacedSelector `json:"reviewSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when PRs are opened.
 	// Workflow state used when PRs are opened.
@@ -121,11 +122,11 @@ type TeamWorkflowInitParameters struct {
 
 	// Reference to a WorkflowState in linear to populate start.
 	// +kubebuilder:validation:Optional
-	StartRef *v1.Reference `json:"startRef,omitempty" tf:"-"`
+	StartRef *v1.NamespacedReference `json:"startRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate start.
 	// +kubebuilder:validation:Optional
-	StartSelector *v1.Selector `json:"startSelector,omitempty" tf:"-"`
+	StartSelector *v1.NamespacedSelector `json:"startSelector,omitempty" tf:"-"`
 }
 
 type TeamWorkflowObservation struct {
@@ -172,11 +173,11 @@ type TeamWorkflowParameters struct {
 
 	// Reference to a WorkflowState in linear to populate draft.
 	// +kubebuilder:validation:Optional
-	DraftRef *v1.Reference `json:"draftRef,omitempty" tf:"-"`
+	DraftRef *v1.NamespacedReference `json:"draftRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate draft.
 	// +kubebuilder:validation:Optional
-	DraftSelector *v1.Selector `json:"draftSelector,omitempty" tf:"-"`
+	DraftSelector *v1.NamespacedSelector `json:"draftSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when PRs are merged.
 	// Workflow state used when PRs are merged.
@@ -187,11 +188,11 @@ type TeamWorkflowParameters struct {
 
 	// Reference to a WorkflowState in linear to populate merge.
 	// +kubebuilder:validation:Optional
-	MergeRef *v1.Reference `json:"mergeRef,omitempty" tf:"-"`
+	MergeRef *v1.NamespacedReference `json:"mergeRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate merge.
 	// +kubebuilder:validation:Optional
-	MergeSelector *v1.Selector `json:"mergeSelector,omitempty" tf:"-"`
+	MergeSelector *v1.NamespacedSelector `json:"mergeSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when PRs become mergeable.
 	// Workflow state used when PRs become mergeable.
@@ -202,11 +203,11 @@ type TeamWorkflowParameters struct {
 
 	// Reference to a WorkflowState in linear to populate mergeable.
 	// +kubebuilder:validation:Optional
-	MergeableRef *v1.Reference `json:"mergeableRef,omitempty" tf:"-"`
+	MergeableRef *v1.NamespacedReference `json:"mergeableRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate mergeable.
 	// +kubebuilder:validation:Optional
-	MergeableSelector *v1.Selector `json:"mergeableSelector,omitempty" tf:"-"`
+	MergeableSelector *v1.NamespacedSelector `json:"mergeableSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when reviews are requested on PRs.
 	// Workflow state used when reviews are requested on PRs.
@@ -217,11 +218,11 @@ type TeamWorkflowParameters struct {
 
 	// Reference to a WorkflowState in linear to populate review.
 	// +kubebuilder:validation:Optional
-	ReviewRef *v1.Reference `json:"reviewRef,omitempty" tf:"-"`
+	ReviewRef *v1.NamespacedReference `json:"reviewRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate review.
 	// +kubebuilder:validation:Optional
-	ReviewSelector *v1.Selector `json:"reviewSelector,omitempty" tf:"-"`
+	ReviewSelector *v1.NamespacedSelector `json:"reviewSelector,omitempty" tf:"-"`
 
 	// (String) Workflow state used when PRs are opened.
 	// Workflow state used when PRs are opened.
@@ -232,17 +233,17 @@ type TeamWorkflowParameters struct {
 
 	// Reference to a WorkflowState in linear to populate start.
 	// +kubebuilder:validation:Optional
-	StartRef *v1.Reference `json:"startRef,omitempty" tf:"-"`
+	StartRef *v1.NamespacedReference `json:"startRef,omitempty" tf:"-"`
 
 	// Selector for a WorkflowState in linear to populate start.
 	// +kubebuilder:validation:Optional
-	StartSelector *v1.Selector `json:"startSelector,omitempty" tf:"-"`
+	StartSelector *v1.NamespacedSelector `json:"startSelector,omitempty" tf:"-"`
 }
 
 // TeamWorkflowSpec defines the desired state of TeamWorkflow
 type TeamWorkflowSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TeamWorkflowParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            TeamWorkflowParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -271,7 +272,7 @@ type TeamWorkflowStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,linear}
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,linear}
 type TeamWorkflow struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

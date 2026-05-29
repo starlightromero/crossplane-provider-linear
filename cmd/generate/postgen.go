@@ -177,12 +177,10 @@ func (mg *%[1]s) GetCondition(ct xpv1.ConditionType) xpv1.Condition { return mg.
 func (mg *%[1]s) SetConditions(c ...xpv1.Condition) { mg.Status.SetConditions(c...) }
 func (mg *%[1]s) GetManagementPolicies() xpv1.ManagementPolicies { return mg.Spec.ManagementPolicies }
 func (mg *%[1]s) SetManagementPolicies(r xpv1.ManagementPolicies) { mg.Spec.ManagementPolicies = r }
-func (mg *%[1]s) GetProviderConfigReference() *xpv1.Reference { return mg.Spec.ProviderConfigReference }
-func (mg *%[1]s) SetProviderConfigReference(r *xpv1.Reference) { mg.Spec.ProviderConfigReference = r }
-func (mg *%[1]s) GetWriteConnectionSecretToReference() *xpv1.SecretReference { return mg.Spec.WriteConnectionSecretToReference }
-func (mg *%[1]s) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
-func (mg *%[1]s) GetDeletionPolicy() xpv1.DeletionPolicy { return mg.Spec.DeletionPolicy }
-func (mg *%[1]s) SetDeletionPolicy(r xpv1.DeletionPolicy) { mg.Spec.DeletionPolicy = r }
+func (mg *%[1]s) GetProviderConfigReference() *xpv1.ProviderConfigReference { return mg.Spec.ProviderConfigReference }
+func (mg *%[1]s) SetProviderConfigReference(r *xpv1.ProviderConfigReference) { mg.Spec.ProviderConfigReference = r }
+func (mg *%[1]s) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference { return mg.Spec.WriteConnectionSecretToReference }
+func (mg *%[1]s) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) { mg.Spec.WriteConnectionSecretToReference = r }
 var _ resource.Managed = &%[1]s{}
 `, typeName)
 			}

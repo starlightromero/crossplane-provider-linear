@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 
 	"github.com/crossplane/upjet/v2/pkg/pipeline"
+	tjtypes "github.com/crossplane/upjet/v2/pkg/types"
 
 	"github.com/avodah-inc/provider-linear/config"
 )
@@ -22,12 +23,22 @@ func main() {
 		root = filepath.Dir(wd)
 	}
 
-	// Step 1: Upjet pipeline
+	// Step 1: Upjet pipeline (namespaced scope)
 	pc, err := config.GetProvider()
 	if err != nil {
 		panic(fmt.Sprintf("cannot build provider configuration: %v", err))
 	}
-	pipeline.Run(pc, nil, root)
+
+	runner := &pipeline.PipelineRunner{
+		DirAPIs:               filepath.Join(root, "apis"),
+		DirControllers:        filepath.Join(root, "internal", "controller"),
+		DirExamples:           filepath.Join(root, "examples-generated"),
+		DirHack:               filepath.Join(root, "hack"),
+		ModulePathAPIs:        filepath.Join(pc.ModulePath, "apis"),
+		ModulePathControllers: filepath.Join(pc.ModulePath, "internal", "controller"),
+		Scope:                 tjtypes.CRDScopeNamespaced,
+	}
+	runner.Run(pc)
 
 	// Step 2: Post-generation patches
 	runPostgen(root)
