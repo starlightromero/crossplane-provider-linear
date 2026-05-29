@@ -77,7 +77,7 @@ type TeamMembershipParameters struct {
 // TeamMembershipSpec defines the desired state of TeamMembership
 type TeamMembershipSpec struct {
 	v2.ManagedResourceSpec `json:",inline"`
-	ForProvider     TeamMembershipParameters `json:"forProvider"`
+	ForProvider            TeamMembershipParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
