@@ -11,7 +11,7 @@ spec:
     isProduction: true
     includePathPatterns:
       - "src/**"
-    teamIds:
+    teams:
       - "your-team-id-here"
   providerConfigRef:
     name: default

@@ -21,6 +21,43 @@
           "version": 0,
           "block": {
             "attributes": {
+              "default_stage": {
+                "nested_type": {
+                  "attributes": {
+                    "color": {
+                      "type": "string",
+                      "description": "Color of the stage. **Default** `#f59e0b`.",
+                      "description_kind": "markdown",
+                      "optional": true,
+                      "computed": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Identifier of the release stage.",
+                      "description_kind": "markdown",
+                      "computed": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the stage. **Default** `Started`.",
+                      "description_kind": "markdown",
+                      "optional": true,
+                      "computed": true
+                    },
+                    "position": {
+                      "type": "number",
+                      "description": "Position of the stage.",
+                      "description_kind": "markdown",
+                      "computed": true
+                    }
+                  },
+                  "nesting_mode": "single"
+                },
+                "description": "Settings for the default `started` stage created with the pipeline. *This can not be deleted.*",
+                "description_kind": "markdown",
+                "optional": true,
+                "computed": true
+              },
               "id": {
                 "type": "string",
                 "description": "Identifier of the release pipeline.",
@@ -49,7 +86,7 @@
                 "description_kind": "markdown",
                 "required": true
               },
-              "team_ids": {
+              "teams": {
                 "type": [
                   "set",
                   "string"
@@ -60,7 +97,7 @@
               },
               "type": {
                 "type": "string",
-                "description": "Type of the pipeline: `continuous` or `scheduled`.",
+                "description": "Type of the pipeline: `continuous` or `scheduled`. **Default** `continuous`.",
                 "description_kind": "markdown",
                 "optional": true,
                 "computed": true
