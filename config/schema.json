@@ -17,6 +17,111 @@
         }
       },
       "resource_schemas": {
+        "linear_release_pipeline": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "description": "Identifier of the release pipeline.",
+                "description_kind": "markdown",
+                "computed": true
+              },
+              "include_path_patterns": {
+                "type": [
+                  "list",
+                  "string"
+                ],
+                "description": "Glob patterns to filter commits by file path.",
+                "description_kind": "markdown",
+                "optional": true
+              },
+              "is_production": {
+                "type": "bool",
+                "description": "Whether this pipeline targets a production environment.",
+                "description_kind": "markdown",
+                "optional": true,
+                "computed": true
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the release pipeline.",
+                "description_kind": "markdown",
+                "required": true
+              },
+              "team_ids": {
+                "type": [
+                  "set",
+                  "string"
+                ],
+                "description": "Identifiers of the teams associated with this pipeline.",
+                "description_kind": "markdown",
+                "optional": true
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the pipeline: `continuous` or `scheduled`.",
+                "description_kind": "markdown",
+                "optional": true,
+                "computed": true
+              }
+            },
+            "description": "Linear release pipeline.",
+            "description_kind": "markdown"
+          }
+        },
+        "linear_release_stage": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "color": {
+                "type": "string",
+                "description": "Color of the stage as a HEX string.",
+                "description_kind": "markdown",
+                "required": true
+              },
+              "frozen": {
+                "type": "bool",
+                "description": "Whether the stage is frozen (only for started type).",
+                "description_kind": "markdown",
+                "optional": true,
+                "computed": true
+              },
+              "id": {
+                "type": "string",
+                "description": "Identifier of the release stage.",
+                "description_kind": "markdown",
+                "computed": true
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the release stage.",
+                "description_kind": "markdown",
+                "required": true
+              },
+              "pipeline_id": {
+                "type": "string",
+                "description": "Identifier of the release pipeline.",
+                "description_kind": "markdown",
+                "required": true
+              },
+              "position": {
+                "type": "number",
+                "description": "Position of the stage within the pipeline.",
+                "description_kind": "markdown",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the stage: `planned`, `started`, `completed`, or `canceled`.",
+                "description_kind": "markdown",
+                "required": true
+              }
+            },
+            "description": "Linear release stage.",
+            "description_kind": "markdown"
+          }
+        },
         "linear_team": {
           "version": 0,
           "block": {
@@ -974,34 +1079,6 @@
             },
             "description": "Linear workspace settings.",
             "description_kind": "markdown"
-          }
-        },
-        "linear_team_membership": {
-          "version": 0,
-          "block": {
-            "attributes": {
-              "id": {
-                "type": "string",
-                "description": "Identifier of the team membership.",
-                "computed": true
-              },
-              "team_id": {
-                "type": "string",
-                "description": "Identifier of the team.",
-                "required": true
-              },
-              "user_id": {
-                "type": "string",
-                "description": "Identifier of the user.",
-                "required": true
-              },
-              "owner": {
-                "type": "bool",
-                "description": "Whether the user is a team owner.",
-                "optional": true,
-                "computed": true
-              }
-            }
           }
         }
       },

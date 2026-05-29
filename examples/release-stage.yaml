@@ -1,0 +1,18 @@
+---
+# Example ReleaseStage managed resource
+apiVersion: linear.crossplane.io/v1alpha1
+kind: ReleaseStage
+metadata:
+  name: staging
+spec:
+  forProvider:
+    name: "Staging"
+    type: "started"
+    color: "#f59e0b"
+    position: 1
+    frozen: false
+    # Reference the pipeline by Crossplane resource name
+    pipelineIdRef:
+      name: production
+  providerConfigRef:
+    name: default
