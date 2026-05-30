@@ -40,11 +40,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			},
 		}
 
-		pcr, ok := mg.(interface{ GetProviderConfigReference() *xpv1.Reference })
-		if !ok || pcr.GetProviderConfigReference() == nil {
+		configRef := mg.GetProviderConfigReference()
+		if configRef == nil {
 			return setup, errors.New("no providerConfigRef set on managed resource")
 		}
-		configRef := pcr.GetProviderConfigReference()
 
 		pc := &v1alpha1.ProviderConfig{}
 		if err := c.Get(ctx, types.NamespacedName{Name: configRef.Name}, pc); err != nil {
