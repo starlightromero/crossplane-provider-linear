@@ -14,7 +14,6 @@ import (
 	"strings"
 	"time"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/pkg/errors"
@@ -40,7 +39,11 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			},
 		}
 
-		configRef := mg.GetProviderConfigReference()
+		pcr, ok := mg.(resource.TypedProviderConfigReferencer)
+		if !ok {
+			return setup, errors.New("managed resource does not implement TypedProviderConfigReferencer")
+		}
+		configRef := pcr.GetProviderConfigReference()
 		if configRef == nil {
 			return setup, errors.New("no providerConfigRef set on managed resource")
 		}
