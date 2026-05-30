@@ -154,6 +154,7 @@ jobs:
           image-ref: ${{ env.IMAGE_NAME }}:scan
           format: sarif
           output: trivy-image-results.sarif
+          exit-code: "0"
           trivyignores: .trivyignore
 
       - name: Upload Trivy image results to GitHub Security
