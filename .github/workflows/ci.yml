@@ -80,6 +80,11 @@ jobs:
             echo "::error::Generated code is out of date. Run 'go generate ./...' and commit the result."
             exit 1
           fi
+          if [ -n "$(git ls-files --others --exclude-standard -- apis/ internal/controller/ package/crds/)" ]; then
+            echo "::error::Generated code added new files. Run 'go generate ./...' and commit the result."
+            git ls-files --others --exclude-standard -- apis/ internal/controller/ package/crds/
+            exit 1
+          fi
 
   # ---------------------------------------------------------------------------
   # Integration tests
@@ -221,9 +226,10 @@ jobs:
         uses: github/codeql-action/init@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
         with:
           languages: go
+          build-mode: manual
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
+      - name: Build
+        run: go build ./...
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
