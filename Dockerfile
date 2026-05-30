@@ -25,9 +25,9 @@ RUN apk add --no-cache curl unzip && \
     unzip /tmp/terraform.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/terraform
 
-# Build the Linear provider plugin from our fork (includes Entity not found fix)
+# Build the Linear provider plugin from our fork (includes release resources)
 RUN apk add --no-cache go git && \
-    git clone --depth 1 --branch fix/read-not-found-and-team-membership https://github.com/starlightromero/terraform-provider-linear.git /tmp/tf-linear && \
+    git clone --depth 1 --branch feat/release-resources https://github.com/starlightromero/terraform-provider-linear.git /tmp/tf-linear && \
     cd /tmp/tf-linear && \
     CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -o /tmp/terraform-provider-linear . && \
     mkdir -p /terraform-plugins/registry.terraform.io/terraform-community-providers/linear/0.3.7/linux_${TARGETARCH} && \
