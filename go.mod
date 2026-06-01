@@ -152,4 +152,4 @@ require (
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
 
-replace github.com/terraform-community-providers/terraform-provider-linear => github.com/starlightromero/terraform-provider-linear v0.3.8-0.20260530233130-f7d689815b55
+replace github.com/terraform-community-providers/terraform-provider-linear => github.com/starlightromero/terraform-provider-linear v0.3.8-0.20260601164352-853ebc3c9279
