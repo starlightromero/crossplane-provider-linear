@@ -37,7 +37,7 @@ RUN apk add --no-cache go git && \
 RUN printf 'provider_installation {\n  filesystem_mirror {\n    path = "/terraform-plugins"\n  }\n}\n' > /terraformrc
 
 # Runtime stage
-FROM gcr.io/distroless/static:nonroot@sha256:e3f945647ffb95b5839c07038d64f9811adf17308b9121d8a2b87b6a22a80a39
+FROM gcr.io/distroless/static:nonroot@sha256:1c2c046bc09ed40fad370b599a0b1ae7987f55b01e247cf27a7c27cd97e5bbc7
 COPY --from=builder /usr/local/bin/provider-linear /usr/local/bin/provider-linear
 COPY --from=terraform /usr/local/bin/terraform /usr/local/bin/terraform
 COPY --from=terraform /terraform-plugins /terraform-plugins
