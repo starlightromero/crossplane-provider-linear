@@ -18,7 +18,7 @@ RUN CGO_ENABLED=0 GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" \
     -o /usr/local/bin/provider-linear ./cmd/provider/
 
 # Download Terraform binary and Linear provider plugin
-FROM alpine:3.21 AS terraform
+FROM alpine:3.21@sha256:ce64758a109eb420d874a118f87920e625e12d3634e03b4a5573fd9f6e5d3507 AS terraform
 ARG TARGETARCH
 RUN apk add --no-cache curl unzip && \
     curl -fsSL "https://releases.hashicorp.com/terraform/1.12.0/terraform_1.12.0_linux_${TARGETARCH}.zip" -o /tmp/terraform.zip && \
